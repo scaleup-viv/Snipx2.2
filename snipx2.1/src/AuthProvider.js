@@ -34,6 +34,8 @@ export const AuthProvider = () => {
   const googleProvider = new GoogleAuthProvider();
   const auth = getAuth();
   const [user, setUser] = useState({});
+  console.log("current user:")
+  console.log(user)
 
   const login = async () => {
     try {
@@ -48,7 +50,7 @@ export const AuthProvider = () => {
 
   // Check if user is in the database (also on backend we verify user's token)
   const checkDatabase = (authResponse) => {
-    const url = `${api}/api/auth/firebase`;
+    const url = `${api}/api/snipx_auth/firebase`;
     axios
       .post(url, {
         idToken: authResponse.stsTokenManager.accessToken,
