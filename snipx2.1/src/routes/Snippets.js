@@ -10,7 +10,7 @@ function Users() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+    
         // First POST request to the initial API
         const response1 = await fetch(`https://extension-360407.lm.r.appspot.com/api/analyze`, {
             method: "POST",
@@ -21,7 +21,7 @@ function Users() {
         });
         const data1 = await response1.json();
         console.log("data from first API", data1);
-
+    
         // Second POST request to the sentimentAnalysis API
         const response2 = await fetch(`https://extension-360407.lm.r.appspot.com/api/sentimentAnalysis`, {
             method: "POST",
@@ -32,22 +32,21 @@ function Users() {
         });
         const data2 = await response2.json();
         console.log("data from sentimentAnalysis API", data2);
-
-        // Verify the structure of data2
-        if (!data2 || !data2.explanations || !data2.score || !data2.sentiment) {
-            console.error("Error: API response is missing expected fields.", data2);
-        }
-
+    
+        // Clean up HTML tags from explanations and extract only numbers from the score
+        const cleanedExplanations = data2.explanations ? data2.explanations.replace(/<\/?[^>]+(>|$)/g, "") : "";
+    
         // Existing state update
         setResults({
             green: data1["green"] || [],
             orange: data1["orange"] || [],
             red: data1["red"] || [],
-            explanations: data2["explanations"] || "",
+            explanations: cleanedExplanations || "",
             score: data2["score"] || "",
             sentiment: data2["sentiment"] || "",
         });
     };
+    
 
     const handleInputChange = (category, index, value) => {
         setResults((prevResults) => ({
