@@ -1,0 +1,14 @@
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    height: 100vh;
+    background-color: #ebedee;
+    padding-top: 50px; /* Add some padding to the top */
+}
+
+.auth-container button {
+    font-size: 18px;
+    padding: 15px 30px;
+    margin-top: 50px; /* Adjust the vertical position of the button */
+}

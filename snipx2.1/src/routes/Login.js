@@ -13,7 +13,8 @@ const Login = () => {
   // Getting auth functions and user details from Auth context using useAuth hook (AuthProvider.js)
   const { user, login, auth, checkDatabase } = useAuth();
   // Using useAuthState to get current Firebase auth state, loading status
-  console.log("user")
+  console.log
+  ("user")
   console.log(user)
   console.log("login")
   console.log(login)
