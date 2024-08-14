@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useAuth } from "../AuthProvider";
 
 function Users() {
   const [users, setUsers] = useState([]);
@@ -9,11 +10,18 @@ function Users() {
   const [editingEmail, setEditingEmail] = useState("");
   const [editingRole, setEditingRole] = useState("");
   const [editingManagerId, setEditingManagerId] = useState("");
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch("https://extension-360407.lm.r.appspot.com/api/snipx_users");
+        const response = await fetch("https://extension-360407.lm.r.appspot.com/api/company_users", {
+            method: "POST", 
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        });
         const data = await response.json();
         setUsers(data);
       } catch (error) {
@@ -87,6 +95,7 @@ function Users() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          currentUserID: user.id, //sending the managers id to check which company he is from, so we can add the new created user to that company too
           email: newEmail,
           role: newRole,
           managedBy: newManagerId ? parseInt(newManagerId) : null,
