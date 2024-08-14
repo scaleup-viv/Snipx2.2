@@ -35,10 +35,19 @@ const MainLayout = () => {
                       <ListItemIcon>
                         <HomeIcon fontSize="small" />
                       </ListItemIcon>
-                      <ListItemText>Snippets</ListItemText>
+                      <ListItemText>Create Snippet</ListItemText>
                     </MenuItem>
                   </NavLink>
-                
+
+                  <NavLink to="/snippets">
+                    <MenuItem>
+                      <ListItemIcon>
+                        <GroupIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText>All Snippets</ListItemText>
+                    </MenuItem>
+                  </NavLink>
+
                   <NavLink to="/users">
                     <MenuItem>
                       <ListItemIcon>

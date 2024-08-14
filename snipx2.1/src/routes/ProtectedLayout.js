@@ -18,6 +18,11 @@ export const ProtectedLayout = () => {
   } else if (!user.email) {
     return <Navigate to="/login" />;
   }
+
+  if (user.role !== "admin") {
+    // If the user is logged in but is not an admin, redirect to a "Not Authorized" page
+    return <Navigate to="/not-authorized" />;
+  }
   
   // If user authenticated, then show page that user tries to access
   return <>{outlet}</>;

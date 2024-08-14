@@ -1,198 +1,289 @@
-import React, { useState } from "react";
-import 'react-quill/dist/quill.snow.css'; 
+import React, { useState, useEffect } from "react";
 
-// Dynamically import React Quill
-const ReactQuill = React.lazy(() => import('react-quill'));
+function Snippets() {
+  const [snippets, setSnippets] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [editingSnippetId, setEditingSnippetId] = useState(null);
+  const [editingSnippet, setEditingSnippet] = useState({
+    text: "",
+    user_id: "",
+    green: "",
+    orange: "",
+    red: "",
+    explanations: "",
+    score: "",
+    sentiment: "",
+  });
 
-function Users() {
-    const [inputText, setInputText] = useState("");
-    const [results, setResults] = useState({ green: [], orange: [], red: [], explanations: "", score: "", sentiment: "" });
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-    
-        // First POST request to the initial API
-        const response1 = await fetch(`https://extension-360407.lm.r.appspot.com/api/analyze`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ text: inputText }),
-        });
-        const data1 = await response1.json();
-        console.log("data from first API", data1);
-    
-        // Second POST request to the sentimentAnalysis API
-        const response2 = await fetch(`https://extension-360407.lm.r.appspot.com/api/sentimentAnalysis`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ text: inputText }),
-        });
-        const data2 = await response2.json();
-        console.log("data from sentimentAnalysis API", data2);
-    
-        // Clean up HTML tags from explanations and extract only numbers from the score
-        const cleanedExplanations = data2.explanations ? data2.explanations.replace(/<\/?[^>]+(>|$)/g, "") : "";
-    
-        // Existing state update
-        setResults({
-            green: data1["green"] || [],
-            orange: data1["orange"] || [],
-            red: data1["red"] || [],
-            explanations: cleanedExplanations || "",
-            score: data2["score"] || "",
-            sentiment: data2["sentiment"] || "",
-        });
-    };
-    
-
-    const handleInputChange = (category, index, value) => {
-        setResults((prevResults) => ({
-            ...prevResults,
-            [category]: prevResults[category].map((item, idx) =>
-                idx === index ? value : item
-            ),
-        }));
+  useEffect(() => {
+    const fetchSnippets = async () => {
+      try {
+        const response = await fetch("https://extension-360407.lm.r.appspot.com/api/snipx_snippets");
+        const data = await response.json();
+        setSnippets(data);
+      } catch (error) {
+        console.error("Error fetching snippets:", error);
+      }
     };
 
-    const handleSentimentDataChange = (field, value) => {
-        setResults((prevData) => ({
-            ...prevData,
-            [field]: value,
-        }));
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch("https://extension-360407.lm.r.appspot.com/api/snipx_users");
+        const data = await response.json();
+        setUsers(data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
     };
 
-    const handleApprove = async () => {
-        const payload = {
-            snipx_user_id: 1,
-            inputText,
-            green: results.green,
-            orange: results.orange,
-            red: results.red,
-            explanations: results.explanations,
-            score: results.score,
-            sentiment: results.sentiment,
-        };
+    fetchSnippets();
+    fetchUsers();
+  }, []);
 
-        try {
-            const response = await fetch(`https://extension-360407.lm.r.appspot.com/api/snipx_snippets`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to send data to the API");
-            }
-
-            const result = await response.json();
-            console.log("API response:", result);
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
-
-    return (
-        <main className="flex min-h-screen flex-col items-center p-24">
-            <h1>SnipX 2.0</h1>
-            <form onSubmit={handleSubmit} className="flex flex-col items-center w-full max-w-lg">
-                <ReactQuill
-                    value={inputText}
-                    onChange={setInputText}
-                    placeholder="Enter text here"
-                    className="w-full p-2 border border-gray-300 rounded"
-                />
-                <button type="submit" className="mt-4 p-2 bg-blue-500 text-white rounded">
-                    Submit
-                </button>
-            </form>
-
-            <div className="flex flex-col items-center w-full max-w-lg mt-8 space-y-4">
-                {Array.isArray(results.green) && results.green.length > 0 && (
-                    <div className="w-full">
-                        <h2 className="text-green-500 text-center mb-2">Green:</h2>
-                        {results.green.map((item, index) => (
-                            <input
-                                key={`green-${index}`}
-                                type="text"
-                                value={item}
-                                onChange={(e) => handleInputChange('green', index, e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded text-black"
-                            />
-                        ))}
-                    </div>
-                )}
-
-                {Array.isArray(results.orange) && results.orange.length > 0 && (
-                    <div className="w-full">
-                        <h2 className="text-orange-500 text-center mb-2">Orange:</h2>
-                        {results.orange.map((item, index) => (
-                            <input
-                                key={`orange-${index}`}
-                                type="text"
-                                value={item}
-                                onChange={(e) => handleInputChange('orange', index, e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded text-black"
-                            />
-                        ))}
-                    </div>
-                )}
-
-                {Array.isArray(results.red) && results.red.length > 0 && (
-                    <div className="w-full">
-                        <h2 className="text-red-500 text-center mb-2">Red:</h2>
-                        {results.red.map((item, index) => (
-                            <input
-                                key={`red-${index}`}
-                                type="text"
-                                value={item}
-                                onChange={(e) => handleInputChange('red', index, e.target.value)}
-                                className="w-full p-2 border border-gray-300 rounded text-black"
-                            />
-                        ))}
-                    </div>
-                )}
-
-                 {/* Additional input fields for the sentiment analysis data */}
-                 <div className="w-full">
-                    <h2 className="text-gray-500 text-center mb-2">Sentiment Analysis Data:</h2>
-                    <input
-                        type="text"
-                        value={results.explanations}
-                        onChange={(e) => handleSentimentDataChange('explanations', e.target.value)}
-                        placeholder="Explanations"
-                        className="w-full p-2 border border-gray-300 rounded text-black mb-2"
-                    />
-                    <input
-                        type="text"
-                        value={results.score}
-                        onChange={(e) => handleSentimentDataChange('score', e.target.value)}
-                        placeholder="Score"
-                        className="w-full p-2 border border-gray-300 rounded text-black mb-2"
-                    />
-                    <input
-                        type="text"
-                        value={results.sentiment}
-                        onChange={(e) => handleSentimentDataChange('sentiment', e.target.value)}
-                        placeholder="Sentiment"
-                        className="w-full p-2 border border-gray-300 rounded text-black mb-2"
-                        />
-                    </div>
-    
-                    <button
-                        onClick={handleApprove}
-                        className="mt-4 p-2 bg-green-500 text-white rounded"
-                    >
-                        Approve
-                    </button>
-                </div>
-            </main>
-        );
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`https://extension-360407.lm.r.appspot.com/api/snipx_snippets/${id}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        setSnippets(snippets.filter((snippet) => snippet.id !== id));
+      } else {
+        console.error("Failed to delete snippet");
+      }
+    } catch (error) {
+      console.error("Error deleting snippet:", error);
     }
-    
-    export default Users;
-    
+  };
+
+  const handleEditClick = (snippet) => {
+    setEditingSnippetId(snippet.id);
+    setEditingSnippet({
+      text: snippet.text,
+      user_id: snippet.user_id || "",
+      green: snippet.green || "",
+      orange: snippet.orange || "",
+      red: snippet.red || "",
+      explanations: snippet.explanations || "",
+      score: snippet.score || "",
+      sentiment: snippet.sentiment || "",
+    });
+  };
+
+  const handleSave = async (id) => {
+    try {
+      const response = await fetch(`https://extension-360407.lm.r.appspot.com/api/snipx_snippets/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editingSnippet),
+      });
+      if (response.ok) {
+        const updatedSnippet = await response.json();
+        setSnippets(
+          snippets.map((snippet) =>
+            snippet.id === id ? updatedSnippet : snippet
+          )
+        );
+        setEditingSnippetId(null);
+      } else {
+        console.error("Failed to save snippet");
+      }
+    } catch (error) {
+      console.error("Error saving snippet:", error);
+    }
+  };
+
+  const handleCancel = () => {
+    setEditingSnippetId(null);
+  };
+
+  const getUserEmail = (userId) => {
+    const user = users.find((user) => user.id === userId);
+    return user ? user.email : "None";
+  };
+
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-semibold text-gray-800 mb-4">Snippets</h1>
+
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-300 rounded-lg">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="py-3 px-4 text-left font-medium text-gray-700">ID</th>
+              <th className="py-3 px-4 text-left font-medium text-gray-700">Snippet Text</th>
+              <th className="py-3 px-4 text-left font-medium text-gray-700">Green</th>
+              <th className="py-3 px-4 text-left font-medium text-gray-700">Orange</th>
+              <th className="py-3 px-4 text-left font-medium text-gray-700">Red</th>
+              <th className="py-3 px-4 text-left font-medium text-gray-700">Explanations</th>
+              <th className="py-3 px-4 text-left font-medium text-gray-700">Score</th>
+              <th className="py-3 px-4 text-left font-medium text-gray-700">Sentiment</th>
+              <th className="py-3 px-4 text-left font-medium text-gray-700">Assigned User</th>
+              <th className="py-3 px-4 text-left font-medium text-gray-700">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {snippets.map((snippet) => (
+              <tr key={snippet.id} className="border-t border-gray-300">
+                <td className="py-2 px-4">{snippet.id}</td>
+                <td className="py-2 px-4">
+                  {editingSnippetId === snippet.id ? (
+                    <textarea
+                      value={editingSnippet.text}
+                      onChange={(e) =>
+                        setEditingSnippet({ ...editingSnippet, text: e.target.value })
+                      }
+                      className="border rounded px-2 py-1 w-full"
+                    />
+                  ) : (
+                    snippet.text || ""
+                  )}
+                </td>
+                <td className="py-2 px-4">
+                  {editingSnippetId === snippet.id ? (
+                    <input
+                      type="text"
+                      value={editingSnippet.green}
+                      onChange={(e) =>
+                        setEditingSnippet({ ...editingSnippet, green: e.target.value })
+                      }
+                      className="border rounded px-2 py-1 w-full"
+                    />
+                  ) : (
+                    JSON.stringify(snippet.green) || ""  // Ensure it's a string
+                  )}
+                </td>
+                <td className="py-2 px-4">
+                  {editingSnippetId === snippet.id ? (
+                    <input
+                      type="text"
+                      value={editingSnippet.orange}
+                      onChange={(e) =>
+                        setEditingSnippet({ ...editingSnippet, orange: e.target.value })
+                      }
+                      className="border rounded px-2 py-1 w-full"
+                    />
+                  ) : (
+                    JSON.stringify(snippet.orange) || ""  // Ensure it's a string
+                  )}
+                </td>
+                <td className="py-2 px-4">
+                  {editingSnippetId === snippet.id ? (
+                    <input
+                      type="text"
+                      value={editingSnippet.red}
+                      onChange={(e) =>
+                        setEditingSnippet({ ...editingSnippet, red: e.target.value })
+                      }
+                      className="border rounded px-2 py-1 w-full"
+                    />
+                  ) : (
+                    JSON.stringify(snippet.red) || ""  // Ensure it's a string
+                  )}
+                </td>
+                <td className="py-2 px-4">
+                  {editingSnippetId === snippet.id ? (
+                    <input
+                      type="text"
+                      value={editingSnippet.explanations}
+                      onChange={(e) =>
+                        setEditingSnippet({ ...editingSnippet, explanations: e.target.value })
+                      }
+                      className="border rounded px-2 py-1 w-full"
+                    />
+                  ) : (
+                    JSON.stringify(snippet.explanations) || ""  // Ensure it's a string
+                  )}
+                </td>
+                <td className="py-2 px-4">
+                  {editingSnippetId === snippet.id ? (
+                    <input
+                      type="text"
+                      value={editingSnippet.score}
+                      onChange={(e) =>
+                        setEditingSnippet({ ...editingSnippet, score: e.target.value })
+                      }
+                      className="border rounded px-2 py-1 w-full"
+                    />
+                  ) : (
+                    snippet.score || ""
+                  )}
+                </td>
+                <td className="py-2 px-4">
+                  {editingSnippetId === snippet.id ? (
+                    <input
+                      type="text"
+                      value={editingSnippet.sentiment}
+                      onChange={(e) =>
+                        setEditingSnippet({ ...editingSnippet, sentiment: e.target.value })
+                      }
+                      className="border rounded px-2 py-1 w-full"
+                    />
+                  ) : (
+                    snippet.sentiment || ""
+                  )}
+                </td>
+                <td className="py-2 px-4">
+                  {editingSnippetId === snippet.id ? (
+                    <select
+                      value={editingSnippet.user_id}
+                      onChange={(e) =>
+                        setEditingSnippet({ ...editingSnippet, user_id: e.target.value })
+                      }
+                      className="border rounded px-2 py-1"
+                    >
+                      <option value="">Assign to User</option>
+                      {users.map((user) => (
+                        <option key={user.id} value={user.id}>
+                          {user.email}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    getUserEmail(snippet.user_id) // Get user's email by user_id
+                  )}
+                </td>
+                <td className="py-2 px-4">
+                  {editingSnippetId === snippet.id ? (
+                    <>
+                      <button
+                        onClick={() => handleSave(snippet.id)}
+                        className="text-green-600 hover:text-green-800 font-medium mr-2"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={handleCancel}
+                        className="text-gray-600 hover:text-gray-800 font-medium"
+                      >
+                        Cancel
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => handleEditClick(snippet)}
+                        className="text-blue-600 hover:text-blue-800 font-medium mr-2"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(snippet.id)}
+                        className="text-red-600 hover:text-red-800 font-medium"
+                      >
+                        Delete
+                      </button>
+                    </>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+export default Snippets;

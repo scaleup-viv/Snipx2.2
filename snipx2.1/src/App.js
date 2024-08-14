@@ -1,5 +1,7 @@
 import Users from "./routes/Users";
 import Snippets from "./routes/Snippets";
+import AddSnippet from "./routes/AddSnippet";
+import NotAuthorized from "./routes/NotAuthorized";
 import Login from "./routes/Login";
 import {
   Route,
@@ -23,9 +25,12 @@ export const router = createBrowserRouter(
     <Route element={<AuthProvider />}>
       <Route path="/" element={<MainLayout />}>
         <Route path="login" element={<Login />} />
+        <Route path="not-authorized" element={<NotAuthorized />} />
+        <Route index element={<Home />} />
+          <Route path="home" element={<AddSnippet />} />
         <Route element={<ProtectedLayout />}>
-          <Route index element={<Home />} />
-          <Route path="home" element={<Snippets />} />
+          
+          <Route path="snippets" element={<Snippets />} />
           <Route path="users" element={<Users />} />
         </Route>
       </Route>
