@@ -7,13 +7,16 @@ const NavBar = () => {
         <nav>
             <ul>
                 <li>
-                    <Link to="/">SNIPPETS</Link>
+                    <Link to="/">CREATE SNIPPETS</Link>
                 </li>
                 <li>
                     <Link to="/users">USERS</Link>
                 </li>
                 <li>
                     <Link to="/auth">LOGIN/LOGOUT</Link>
+                </li>
+                <li>
+                    <Link to="/snippets">ALL SNIPPETS</Link>
                 </li>
             </ul>
         </nav>

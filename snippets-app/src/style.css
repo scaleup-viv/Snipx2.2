@@ -14,7 +14,7 @@ h2 {
 }
 
 button {
-    background: linear-gradient(135deg, #FFB300, #E4277D); /* Gradient background for buttons */
+    background: #E4277D;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -25,7 +25,8 @@ button {
 }
 
 button:hover {
-    background: linear-gradient(135deg, #E4277D, #FFB300); /* Reverse gradient on hover */
+    background:white; /*Reverse colors on hover*/
+    color: #E4277D;
     transform: scale(1.05); /* Slight scale effect on hover */
 }
 
