@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import 'react-quill/dist/quill.snow.css'; 
 
 // Dynamically import React Quill
@@ -6,7 +6,15 @@ const ReactQuill = React.lazy(() => import('react-quill'));
 
 function Users() {
     const [inputText, setInputText] = useState("");
+    const [currentDate, setCurrentDate] = useState("");
     const [results, setResults] = useState({ green: [], orange: [], red: [], explanations: "", score: "", sentiment: "" });
+
+    useEffect(() => {
+        // Set the current date (without time) when the component mounts
+        const now = new Date();
+        const formattedDate = now.toISOString().slice(0, 10); // YYYY-MM-DD format
+        setCurrentDate(formattedDate);
+    }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -35,7 +43,7 @@ function Users() {
     
         // Clean up HTML tags from explanations and extract only numbers from the score
         const cleanedExplanations = data2.explanations ? data2.explanations.replace(/<\/?[^>]+(>|$)/g, "") : "";
-    
+        
         // Existing state update
         setResults({
             green: data1["green"] || [],
@@ -68,6 +76,7 @@ function Users() {
         const payload = {
             snipx_user_id: 1,
             inputText,
+            date: currentDate,  // Include the date here
             green: results.green,
             orange: results.orange,
             red: results.red,
@@ -98,7 +107,7 @@ function Users() {
 
     return (
         <main className="flex min-h-screen flex-col items-center p-24">
-            <h1>SnipX 2.0</h1>
+            <h1>Snippet AI Analysis</h1>
             <form onSubmit={handleSubmit} className="flex flex-col items-center w-full max-w-lg">
                 <ReactQuill
                     value={inputText}
@@ -112,6 +121,17 @@ function Users() {
             </form>
 
             <div className="flex flex-col items-center w-full max-w-lg mt-8 space-y-4">
+                {/* Date Field */}
+                <div className="w-full">
+                    <h2 className="text-gray-500 text-center mb-2">Date:</h2>
+                    <input
+                        type="text"
+                        value={currentDate}
+                        readOnly
+                        className="w-full p-2 border border-gray-300 rounded text-black mb-2"
+                    />
+                </div>
+
                 {Array.isArray(results.green) && results.green.length > 0 && (
                     <div className="w-full">
                         <h2 className="text-green-500 text-center mb-2">Green:</h2>
@@ -157,8 +177,8 @@ function Users() {
                     </div>
                 )}
 
-                 {/* Additional input fields for the sentiment analysis data */}
-                 <div className="w-full">
+                {/* Additional input fields for the sentiment analysis data */}
+                <div className="w-full">
                     <h2 className="text-gray-500 text-center mb-2">Sentiment Analysis Data:</h2>
                     <input
                         type="text"
@@ -180,19 +200,18 @@ function Users() {
                         onChange={(e) => handleSentimentDataChange('sentiment', e.target.value)}
                         placeholder="Sentiment"
                         className="w-full p-2 border border-gray-300 rounded text-black mb-2"
-                        />
-                    </div>
-    
-                    <button
-                        onClick={handleApprove}
-                        className="mt-4 p-2 bg-green-500 text-white rounded"
-                    >
-                        Approve
-                    </button>
+                    />
                 </div>
-            </main>
-        );
-    }
-    
-    export default Users;
-    
+
+                <button
+                    onClick={handleApprove}
+                    className="mt-4 p-2 bg-green-500 text-white rounded"
+                >
+                    Approve
+                </button>
+            </div>
+        </main>
+    );
+}
+
+export default Users;

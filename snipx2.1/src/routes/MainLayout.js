@@ -39,6 +39,15 @@ const MainLayout = () => {
                     </MenuItem>
                   </NavLink>
 
+                  <NavLink to="/weekly-report">
+                    <MenuItem>
+                      <ListItemIcon>
+                        <HomeIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText>Weekly Report</ListItemText>
+                    </MenuItem>
+                  </NavLink>
+
                   <NavLink to="/snippets">
                     <MenuItem>
                       <ListItemIcon>
