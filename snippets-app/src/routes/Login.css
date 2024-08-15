@@ -12,6 +12,7 @@
     font-size: 18px;
     padding: 15px 30px;
     margin-top: 50px; /* Adjust the vertical position of the button */
+    width :auto;
 }
 
 .auth-container button:hover {

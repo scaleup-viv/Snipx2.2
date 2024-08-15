@@ -1,4 +1,4 @@
-import React, { useState,useEffect, Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import 'react-quill/dist/quill.snow.css';
 import './AddSnippet.css';
 import { Line } from 'react-chartjs-2';
@@ -16,7 +16,7 @@ const Snippets = () => {
     // State to manage the output of the submitted text
     const [results, setResults] = useState({ green: [], orange: [], red: [], explanations: "", score: "", sentiment: "" });
     // State to handle the Display of outputs
-    const [showOutputs,setShowOutputs] = useState(false);
+    const [showOutputs, setShowOutputs] = useState(false);
     // State to control the visibility of the graphic
     const [showGraphic, setShowGraphic] = useState(false);
     // State to store the scores entered by the user
@@ -27,20 +27,59 @@ const Snippets = () => {
     const [currentScore, setCurrentScore] = useState("");
     // State to handle the current date input
     const [currentDate, setCurrentDate] = useState("");
-    
 
-    // Function to modify to put actual results
+    // Set the current date when the component mounts
+    useEffect(() => {
+        const now = new Date();
+        const formattedDate = now.toISOString().slice(0, 10); // YYYY-MM-DD format
+        setCurrentDate(formattedDate);
+    }, []);
+
+    // Function to handle form submission and fetch data from APIs
     const handleSubmit = async (event) => {
         event.preventDefault(); // Prevent the default form submission behavior
-        setResults({
-            green: ["Sample Green Text"], // Replace with actual logic
-            orange: ["Sample Orange Text"], // Replace with actual logic
-            red: ["Sample Red Text"], // Replace with actual logic
-            explanations: "Explanation", // Simply using inputText for all outputs
-            score: "10", // Example score value
-            sentiment: "Sentiment", // Simply using inputText for all outputs
-        });
-        setShowOutputs(true);
+
+        try {
+            // First POST request to the initial API
+            const response1 = await fetch(`https://extension-360407.lm.r.appspot.com/api/analyze`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ text: inputText }),
+            });
+            const data1 = await response1.json();
+            console.log("data from first API", data1);
+
+            // Second POST request to the sentimentAnalysis API
+            const response2 = await fetch(`https://extension-360407.lm.r.appspot.com/api/sentimentAnalysis`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ text: inputText }),
+            });
+            const data2 = await response2.json();
+            console.log("data from sentimentAnalysis API", data2);
+
+            // Clean up HTML tags from explanations and extract only numbers from the score
+            const cleanedExplanations = data2.explanations ? data2.explanations.replace(/<\/?[^>]+(>|$)/g, "") : "";
+
+            // Update the results state with data from the APIs
+            setResults({
+                green: data1["green"] || [],
+                orange: data1["orange"] || [],
+                red: data1["red"] || [],
+                explanations: cleanedExplanations || "",
+                score: data2["score"] || "",
+                sentiment: data2["sentiment"] || "",
+            });
+            setCurrentScore(data2["score"] || "");
+
+            setShowOutputs(true); // Show the outputs once data is fetched
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
     };
 
     // Function to toggle the visibility of the graphic
@@ -53,24 +92,46 @@ const Snippets = () => {
         setCurrentDate(event.target.value); // Update the currentDate state with the selected date
     };
 
-    // Update currentScore when results.score changes
-    useEffect(() => {
-        setCurrentScore(results.score);
-    }, [results.score]);
+    // Function to approve the snippet and save it
+    const handleApprove = async () => {
+        const payload = {
+            snipx_user_id: 1, // Replace with the actual user ID if needed
+            type: "daily",
+            inputText,
+            date: currentDate,  // Include the date here
+            green: results.green,
+            orange: results.orange,
+            red: results.red,
+            explanations: results.explanations,
+            score: results.score,
+            sentiment: results.sentiment,
+        };
 
-    const handleApprove = () => {
-        // Logic to handle approve button click
-        console.log("Approved:", results);
-        // Ensure both score and date inputs are not empty
-        if (currentScore !== "" && currentDate !== "") {
-            // Add the current score to the scores array
-            setScores([...scores, parseInt(currentScore)]);
-            // Add the current date to the dates array
-            setDates([...dates, currentDate]);
-            // Clear the score input field after adding the score
-            setCurrentScore("");
-            // Clear the date input field after adding the date
-            setCurrentDate("");
+        try {
+            const response = await fetch(`https://extension-360407.lm.r.appspot.com/api/snipx_snippets`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to send data to the API");
+            }
+
+            const result = await response.json();
+            console.log("API response:", result);
+
+            // Add the current score to the chart if not empty
+            if (currentScore !== "" && currentDate !== "") {
+                setScores([...scores, parseInt(currentScore)]);
+                setDates([...dates, currentDate]);
+                setCurrentScore(""); // Clear the score input field after adding the score
+                setCurrentDate(""); // Clear the date input field after adding the date
+            }
+        } catch (error) {
+            console.error("Error:", error);
         }
     };
 
@@ -98,6 +159,19 @@ const Snippets = () => {
         },
     };
 
+    function autoResizeTextarea(textarea) {
+        textarea.style.height = 'auto'; // Reset height to auto
+        textarea.style.height = `${textarea.scrollHeight}px`; // Adjust height to fit content
+    }
+    
+    useEffect(() => {
+        const textareas = document.querySelectorAll('.auto-resize');
+        textareas.forEach((textarea) => {
+            autoResizeTextarea(textarea);
+        });
+    }, [results]); // Adjust whenever the results change
+    
+
     return (
         <div className="snippets-container">
             {/* Page title */}
@@ -105,15 +179,15 @@ const Snippets = () => {
             <div className="form-container">
                 {/* Date input field container */}
                 <div className="input-container">
-                        <label htmlFor="date-input" className="block mb-2 text-gray-700">Enter a date:</label>
-                        {/* Date input field */}
-                        <input
-                            id="date-input"
-                            type="date" // Input type for selecting dates
-                            value={currentDate} // Controlled component, bound to currentDate state
-                            onChange={handleDateChange} // Updates currentDate state with selected date
-                            className="p-2 border border-gray-300 rounded w-full" // Styling for the input field
-                        />
+                    <label htmlFor="date-input" className="block mb-2 text-gray-700">Enter a date:</label>
+                    {/* Date input field */}
+                    <input
+                        id="date-input"
+                        type="date" // Input type for selecting dates
+                        value={currentDate} // Controlled component, bound to currentDate state
+                        onChange={handleDateChange} // Updates currentDate state with selected date
+                        className="p-2 border border-gray-300 rounded w-full" // Styling for the input field
+                    />
                 </div>
                 
                 {/* Form for submitting rich text snippets */}
@@ -134,35 +208,33 @@ const Snippets = () => {
                 </form>
             </div>
     
-            {/* Display the output text*/}
+            {/* Display the output text */}
             <div className="flex flex-col items-center w-full max-w-lg mt-8 space-y-4">
                 {showOutputs && (
                     <div className="w-full">
-                        <h2 className="green-title mb-2">Green:</h2>
-                        {results.green.map((item, index) => (
-                            <input
-                                key={`green-${index}`}
-                                type="text"
-                                value={item}
-                                className="w-full p-2 border border-gray-300 rounded text-black"
-                                onChange={(e) => setResults((prevResults) => ({
-                                    ...prevResults,
-                                    green: prevResults.green.map((el, idx) => idx === index ? e.target.value : el)
-                                }))} // Allow editing of the green text
-                            />
-                        ))}
-                    </div>
+                    <h2 className="green-title mb-2">Green:</h2>
+                    {results.green.map((item, index) => (
+                        <textarea
+                            key={`green-${index}`}
+                            value={item}
+                            className="auto-resize mb-2"
+                            onChange={(e) => setResults((prevResults) => ({
+                                ...prevResults,
+                                green: prevResults.green.map((el, idx) => idx === index ? e.target.value : el)
+                            }))} // Allow editing of the green text
+                        />
+                    ))}
+                </div>
                 )}
 
                 {showOutputs && (
                     <div className="w-full">
                         <h2 className="orange-title mb-2">Orange:</h2>
                         {results.orange.map((item, index) => (
-                            <input
+                            <textarea
                                 key={`orange-${index}`}
-                                type="text"
                                 value={item}
-                                className="w-full p-2 border border-gray-300 rounded text-black"
+                                className="auto-resize mb-2"
                                 onChange={(e) => setResults((prevResults) => ({
                                     ...prevResults,
                                     orange: prevResults.orange.map((el, idx) => idx === index ? e.target.value : el)
@@ -176,11 +248,10 @@ const Snippets = () => {
                     <div className="w-full">
                         <h2 className="red-title mb-2">Red:</h2>
                         {results.red.map((item, index) => (
-                            <input
+                            <textarea
                                 key={`red-${index}`}
-                                type="text"
                                 value={item}
-                                className="w-full p-2 border border-gray-300 rounded text-black"
+                                className="auto-resize mb-2"
                                 onChange={(e) => setResults((prevResults) => ({
                                     ...prevResults,
                                     red: prevResults.red.map((el, idx) => idx === index ? e.target.value : el)
@@ -193,11 +264,10 @@ const Snippets = () => {
                 {showOutputs && (
                     <div className="w-full">
                         <h2 className="text-gray-500 text-center mb-2">Explanations:</h2>
-                        <input
-                            type="text"
+                        <textarea
                             value={results.explanations}
+                            className="auto-resize mb-2"
                             placeholder="Explanations"
-                            className="w-full p-2 border border-gray-300 rounded text-black mb-2"
                             onChange={(e) => setResults((prevResults) => ({
                                 ...prevResults,
                                 explanations: e.target.value
@@ -209,11 +279,10 @@ const Snippets = () => {
                 {showOutputs && (
                     <div className="w-full">
                         <h2 className="text-gray-500 text-center mb-2">Score:</h2>
-                        <input
-                            type="number"
+                        <textarea
                             value={results.score}
+                            className="auto-resize mb-2"
                             placeholder="Score"
-                            className="w-full p-2 border border-gray-300 rounded text-black mb-2"
                             onChange={(e) => {
                                 const newScore = e.target.value;
                                 setResults((prevResults) => ({
@@ -229,11 +298,10 @@ const Snippets = () => {
                 {showOutputs && (
                     <div className="w-full">
                         <h2 className="text-gray-500 text-center mb-2">Sentiment:</h2>
-                        <input
-                            type="text"
+                        <textarea
                             value={results.sentiment}
+                            className="auto-resize mb-2"
                             placeholder="Sentiment"
-                            className="w-full p-2 border border-gray-300 rounded text-black mb-2"
                             onChange={(e) => setResults((prevResults) => ({
                                 ...prevResults,
                                 sentiment: e.target.value
@@ -246,7 +314,7 @@ const Snippets = () => {
     
             {/* Button group containing the add data point button and the toggle graphic button */}
             <div className="button-group mt-4">
-                {/* Button to add the current date and score to the chart (Will be fused with the "Submit button") */}
+                {/* Button to add the current date and score to the chart */}
                 <button
                     onClick={handleApprove}
                     className="mt-4 p-2 bg-green-500 text-white rounded"
@@ -269,7 +337,6 @@ const Snippets = () => {
             )}
         </div>
     );
-    
 };
 
 export default Snippets;
