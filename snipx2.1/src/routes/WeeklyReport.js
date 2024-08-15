@@ -107,6 +107,7 @@ function Users() {
     const handleApprove = async () => {
         const payload = {
             snipx_user_id: user.id, // Assuming user.id is the correct user ID
+            type: "weekly",
             inputText: weeklyReport,
             green: results.green,
             orange: results.orange,

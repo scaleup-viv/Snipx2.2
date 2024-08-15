@@ -75,6 +75,7 @@ function Users() {
     const handleApprove = async () => {
         const payload = {
             snipx_user_id: 1,
+            type: "daily",
             inputText,
             date: currentDate,  // Include the date here
             green: results.green,

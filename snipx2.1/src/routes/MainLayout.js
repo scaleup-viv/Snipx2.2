@@ -48,6 +48,15 @@ const MainLayout = () => {
                     </MenuItem>
                   </NavLink>
 
+                  <NavLink to="/my-snippets">
+                    <MenuItem>
+                      <ListItemIcon>
+                        <HomeIcon fontSize="small" />
+                      </ListItemIcon>
+                      <ListItemText>My Snippets</ListItemText>
+                    </MenuItem>
+                  </NavLink>
+
                   <NavLink to="/snippets">
                     <MenuItem>
                       <ListItemIcon>

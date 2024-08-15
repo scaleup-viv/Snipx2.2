@@ -1,6 +1,7 @@
 import Users from "./routes/Users";
 import Snippets from "./routes/Snippets";
 import AddSnippet from "./routes/AddSnippet";
+import MySnippets from "./routes/MySnippets";
 import WeeklyReport from "./routes/WeeklyReport";
 import NotAuthorized from "./routes/NotAuthorized";
 import Login from "./routes/Login";
@@ -30,6 +31,7 @@ export const router = createBrowserRouter(
         <Route index element={<Home />} />
           <Route path="home" element={<AddSnippet />} />
           <Route path="weekly-report" element={<WeeklyReport />} />
+          <Route path="my-snippets" element={<MySnippets />} />
         <Route element={<ProtectedLayout />}>
           
           <Route path="snippets" element={<Snippets />} />
