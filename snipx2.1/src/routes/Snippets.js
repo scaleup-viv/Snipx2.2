@@ -112,6 +112,7 @@ function Snippets() {
           <thead>
             <tr className="bg-gray-200">
               <th className="py-3 px-4 text-left font-medium text-gray-700">ID</th>
+              <th className="py-3 px-4 text-left font-medium text-gray-700">Date</th>
               <th className="py-3 px-4 text-left font-medium text-gray-700">Snippet Text</th>
               <th className="py-3 px-4 text-left font-medium text-gray-700">Green</th>
               <th className="py-3 px-4 text-left font-medium text-gray-700">Orange</th>
@@ -127,6 +128,22 @@ function Snippets() {
             {snippets.map((snippet) => (
               <tr key={snippet.id} className="border-t border-gray-300">
                 <td className="py-2 px-4">{snippet.id}</td>
+
+                <td className="py-2 px-4">
+                  {editingSnippetId === snippet.id ? (
+                    
+                    <textarea
+                      value={editingSnippet.date}
+                      onChange={(e) =>
+                        setEditingSnippet({ ...editingSnippet, date: e.target.value })
+                      }
+                      className="border rounded px-2 py-1 w-full"
+                    />
+                  ) : (
+                    snippet.date || ""
+                  )}
+                </td>
+
                 <td className="py-2 px-4">
                   {editingSnippetId === snippet.id ? (
                     <textarea
