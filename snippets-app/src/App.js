@@ -1,31 +1,37 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import AddSnippet from './AddSnippet';
-import Users from './Users';
-import Auth from './Auth';
-import NavBar from './NavBar';
-import Snippets from './Snippets';
+import React, { useState, createContext } from 'react';
+import {
+    Route,
+    createBrowserRouter,
+    createRoutesFromElements,
+    defer,
+  } from "react-router-dom";
+import AddSnippet from './routes/AddSnippet';
+import Users from './routes/Users';
+import Login from './routes/Login';
+import NavBar from './routes/NavBar';
+import Snippets from './routes/Snippets';
+import NotAuthorized from './routes/NotAuthorized';
+import Home from "./routes/Home"
+import { ProtectedLayout } from './routes/ProtectedLayout';
+import { AuthProvider } from "./AuthProvider";
 
-function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+// export const apiUrl = createContext("http://localhost:8080"); //local api during development
+export const apiUrl = createContext("https://extension-360407.lm.r.appspot.com");
 
-    const handleLogin = () => {
-        setIsLoggedIn(true);
-    };
-
-    return (
-        <Router>
-            <div className="App">
-                <NavBar />
-                <Routes>
-                    <Route path="/" element={<AddSnippet />} />
-                    <Route path="/users" element={<Users />} />
-                    <Route path="/snippets" element={<Snippets />} />
-                    <Route path="/auth" element={<Auth isLoggedIn={isLoggedIn} onLogin={handleLogin} />} />
-                </Routes>
-            </div>
-        </Router>
-    );
-}
-
-export default App;
+// The ProtectedLayout component is used to wrap routes that require user authentication.
+export const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route element={<AuthProvider />}>
+      <Route path="/" element={<NavBar />}>
+        <Route path="login" element={<Login />} />
+        <Route path="not-authorized" element={<NotAuthorized />} />
+        <Route index element={<Home />} />
+        <Route element={<ProtectedLayout />}>
+          <Route path="snippets" element={<Snippets />} />
+          <Route path="users" element={<Users />} />
+          <Route path="home" element={<AddSnippet />} />
+        </Route>
+      </Route>
+    </Route>
+  )
+);
