@@ -1,0 +1,81 @@
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ebedee;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-attachment: fixed; /* Ensures gradient stays fixed during scroll */
+}
+
+h2 {
+    color: black; /* White text for better contrast against the gradient */
+    margin-bottom: 20px;
+}
+
+button {
+    background: #E4277D;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+    background:white; /*Reverse colors on hover*/
+    color: #E4277D;
+    transform: scale(1.05); /* Slight scale effect on hover */
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Transparent border to match theme */
+    font-size: 14px;
+    margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
+    color: #333;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #E4277D; /* Gradient color for focus border */
+}
+
+nav {
+    background-color: #FFB300; /* Set the background color to #FFB300 */
+    padding: 10px;
+    border-radius: 10px; /* Rounded corners for a modern look */
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+nav ul li {
+    margin: 0;
+}
+
+nav ul li a {
+    color: white; /* White text for better contrast */
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transitions */
+}
+
+nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.3); 
+    border-radius: 5px;
+    transform: scale(1.05); /* Slight scale effect on hover */
+}

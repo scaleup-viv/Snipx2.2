@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useAuth } from "../AuthProvider";
 
 function Snippets() {
+  const { user } = useAuth();
   const [snippets, setSnippets] = useState([]);
   const [users, setUsers] = useState([]);
   const [editingSnippetId, setEditingSnippetId] = useState(null);
@@ -15,10 +17,18 @@ function Snippets() {
     sentiment: "",
   });
 
+  
+
   useEffect(() => {
     const fetchSnippets = async () => {
       try {
-        const response = await fetch("https://extension-360407.lm.r.appspot.com/api/snipx_snippets");
+        const response = await fetch("https://extension-360407.lm.r.appspot.com/api/company_snippets", {
+          method: "POST", 
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
         const data = await response.json();
         setSnippets(data);
       } catch (error) {

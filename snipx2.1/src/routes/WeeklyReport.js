@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, startTransition, Suspense } from "react";
 import axios from "axios";
 import 'react-quill/dist/quill.snow.css'; 
 import { useAuth } from "../AuthProvider";
@@ -9,7 +9,7 @@ function Users() {
     const { user } = useAuth();
     const [snippets, setSnippets] = useState([]);
     const [selectedSnippetIds, setSelectedSnippetIds] = useState([]);
-    const [weeklyReport, setWeeklyReport] = useState(''); // State for the weekly report
+    const [weeklyReport, setWeeklyReport] = useState(''); 
     const [results, setResults] = useState({
         green: [],
         orange: [],
@@ -22,7 +22,7 @@ function Users() {
     useEffect(() => {
         const fetchSnippets = async () => {
             try {
-                const response = await axios.post("https://extension-360407.lm.r.appspot.com/api/snipx_snippets/user", { id: user.id });
+                const response = await axios.post("https://extension-360407.lm.r.appspot.com/api/snipx_snippets/user_daily", { id: user.id });
                 setSnippets(response.data);
             } catch (error) {
                 console.error("Error fetching snippets:", error);
@@ -42,7 +42,7 @@ function Users() {
         
         if (selectedValues.length > 5) {
             alert("You can only select up to 5 snippets.");
-            return; // Prevent exceeding the limit
+            return; 
         }
 
         setSelectedSnippetIds(selectedValues);
@@ -62,18 +62,14 @@ function Users() {
 
     const handleAnalyzeSubmit = async () => {
         try {
-            // First POST request to analyze
             const response1 = await axios.post("https://extension-360407.lm.r.appspot.com/api/analyze", { text: weeklyReport });
             const data1 = response1.data;
 
-            // Second POST request to sentimentAnalysis
             const response2 = await axios.post("https://extension-360407.lm.r.appspot.com/api/sentimentAnalysis", { text: weeklyReport });
             const data2 = response2.data;
 
-            // Clean up HTML tags from explanations and extract only numbers from the score
             const cleanedExplanations = data2.explanations ? data2.explanations.replace(/<\/?[^>]+(>|$)/g, "") : "";
 
-            // Update results state
             setResults({
                 green: data1.green || [],
                 orange: data1.orange || [],
@@ -106,7 +102,7 @@ function Users() {
 
     const handleApprove = async () => {
         const payload = {
-            snipx_user_id: user.id, // Assuming user.id is the correct user ID
+            snipx_user_id: user.id, 
             type: "weekly",
             inputText: weeklyReport,
             green: results.green,
@@ -165,12 +161,14 @@ function Users() {
             )}
 
             <h1>Weekly Report:</h1>
-            <ReactQuill
-                value={weeklyReport}
-                onChange={setWeeklyReport}
-                placeholder="Weekly report"
-                className="w-full p-2 border border-gray-300 rounded"
-            />
+            <Suspense fallback={<div>Loading editor...</div>}>
+                <ReactQuill
+                    value={weeklyReport}
+                    onChange={setWeeklyReport}
+                    placeholder="Weekly report"
+                    className="w-full p-2 border border-gray-300 rounded"
+                />
+            </Suspense>
             <button onClick={handleAnalyzeSubmit} className="mt-4 p-2 bg-yellow-500 text-white rounded">
                 Analyze Report
             </button>
