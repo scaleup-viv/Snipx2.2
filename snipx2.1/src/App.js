@@ -5,6 +5,7 @@ import MySnippets from "./routes/MySnippets";
 import WeeklyReport from "./routes/WeeklyReport";
 import NotAuthorized from "./routes/NotAuthorized";
 import Login from "./routes/Login";
+import NavBar from './routes/NavBar';
 import {
   Route,
   createBrowserRouter,
@@ -25,7 +26,7 @@ export const apiUrl = createContext("https://extension-360407.lm.r.appspot.com")
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<AuthProvider />}>
-      <Route path="/" element={<MainLayout />}>
+       <Route path="/" element={<NavBar />}>
         <Route path="login" element={<Login />} />
         <Route path="not-authorized" element={<NotAuthorized />} />
         <Route index element={<Home />} />

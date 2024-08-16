@@ -1,7 +1,8 @@
 import React from "react";
-import { Navigate, useOutlet } from "react-router-dom";
+import { Navigate, useOutlet, Link } from "react-router-dom";
 import { useAuth } from "../AuthProvider";
 import { useAuthState } from "react-firebase-hooks/auth";
+import './ProtectedLayout.css'
 
 export const ProtectedLayout = () => {
   // Getting auth functions and user details from Auth context using useAuth hook (local auth state)
@@ -16,7 +17,15 @@ export const ProtectedLayout = () => {
     checkDatabase(firebaseUser);
   // If user don't authenticated both locally and in Firebase, navigate to Login page
   } else if (!user.email) {
-    return <Navigate to="/login" />;
+    return (
+    <div className="access-restricted">
+    <h1>Access Restricted</h1>
+    <p>You need to log in to access this page.</p>
+    <Link to="/login"  className="login-link">
+      Go to Login Page
+    </Link>
+  </div>
+    );
   }
 
   if (user.role !== "admin") {

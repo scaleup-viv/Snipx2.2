@@ -47,9 +47,8 @@ const Login = () => {
     <>
       <Card variant="outlined">
         <CardContent>
-          <h1>Login</h1>
           <Box component="form" onSubmit={handleSubmit} autoComplete="on">
-            <div>
+          <div className="auth-container">
               <Button
                 variant="contained"
                 type="submit"
