@@ -22,6 +22,15 @@ const NavBar = () => {
                     <li>
                         <Link to="/home">CREATE SNIPPETS</Link>
                     </li>
+
+                    <li>
+                        <Link to="/weekly-report">WEEKLY REPORT</Link>
+                    </li>
+
+                    <li>
+                        <Link to="/my-snippets">MY SNIPPETS</Link>
+                    </li>
+
                     <li>
                         <Link to="/snippets">ALL SNIPPETS</Link>
                     </li>
