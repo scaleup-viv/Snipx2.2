@@ -12,8 +12,10 @@ import NavBar from './routes/NavBar';
 import Snippets from './routes/Snippets';
 import NotAuthorized from './routes/NotAuthorized';
 import Home from "./routes/Home"
+import MySnippets from "./routes/MySnippets"
 import { ProtectedLayout } from './routes/ProtectedLayout';
 import { AuthProvider } from "./AuthProvider";
+import WeeklyReports from './routes/WeeklyReports';
 
 // export const apiUrl = createContext("http://localhost:8080"); //local api during development
 export const apiUrl = createContext("https://extension-360407.lm.r.appspot.com");
@@ -28,6 +30,8 @@ export const router = createBrowserRouter(
         <Route index element={<Home />} />
         <Route element={<ProtectedLayout />}>
           <Route path="snippets" element={<Snippets />} />
+          <Route path="mysnippets" element={<MySnippets />} />
+          <Route path="weekly-reports" element={<WeeklyReports/>}/>
           <Route path="users" element={<Users />} />
           <Route path="home" element={<AddSnippet />} />
         </Route>

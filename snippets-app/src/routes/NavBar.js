@@ -26,6 +26,12 @@ const NavBar = () => {
                         <Link to="/snippets">ALL SNIPPETS</Link>
                     </li>
                     <li>
+                        <Link to="/mysnippets">MY SNIPPETS</Link>
+                    </li>
+                    <li>
+                        <Link to="/weekly-reports">WEEKLY REPORTS</Link>
+                    </li>
+                    <li>
                         <Link to="/users">USERS</Link>
                     </li>
                 </ul>
