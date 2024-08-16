@@ -4,6 +4,7 @@ import { useAuth } from "../AuthProvider";
 
 function Users() {
     const [users, setUsers] = useState([]);
+    const [managerEmails, setManagerEmails] = useState({});
     const [newEmail, setNewEmail] = useState("");
     const [newRole, setNewRole] = useState("");
     const [newManagerId, setNewManagerId] = useState("");
@@ -25,6 +26,7 @@ function Users() {
                 });
                 const data = await response.json();
                 setUsers(data);
+                fetchManagerEmails(data); // Fetch emails for the managedBy field
             } catch (error) {
                 console.error("Error fetching users:", error);
             }
@@ -32,6 +34,27 @@ function Users() {
 
         fetchUsers();
     }, [user]);
+
+    const fetchManagerEmails = async (users) => {
+        const emails = {};
+        for (const user of users) {
+            if (user.managedBy) {
+                try {
+                    const response = await fetch(`https://extension-360407.lm.r.appspot.com/api/snipx_users/${user.managedBy}`, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    });
+                    const data = await response.json();
+                    emails[user.managedBy] = data.email;
+                } catch (error) {
+                    console.error("Error fetching manager email:", error);
+                }
+            }
+        }
+        setManagerEmails(emails);
+    };
 
     const handleDelete = async (id) => {
         try {
@@ -76,6 +99,7 @@ function Users() {
                     )
                 );
                 setEditingUserId(null);
+                fetchManagerEmails(users); // Update the emails after save
             } else {
                 console.error("Failed to save user");
             }
@@ -108,6 +132,7 @@ function Users() {
                 setNewEmail("");
                 setNewRole("");
                 setNewManagerId("");
+                fetchManagerEmails([newUser, ...users]); // Fetch emails after creating a user
             } else {
                 console.error("Failed to create user");
             }
@@ -213,7 +238,7 @@ function Users() {
                                                 ))}
                                         </select>
                                     ) : (
-                                        user.manager ? user.manager.email : "None"
+                                        user.managedBy ? managerEmails[user.managedBy] || user.managedBy : "None"
                                     )}
                                 </td>
                                 <td>
