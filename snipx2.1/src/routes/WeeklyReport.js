@@ -1,8 +1,10 @@
 import React, { useState, useEffect, Suspense } from "react";
 import axios from "axios";
-import 'react-quill/dist/quill.snow.css'; 
 import { useAuth } from "../AuthProvider";
-import './WeeklyReports.css';  // Import the new CSS file
+import { Bar } from 'react-chartjs-2';
+import 'react-quill/dist/quill.snow.css';
+import './WeeklyReports.css';
+import './chartConfig';
 
 const ReactQuill = React.lazy(() => import('react-quill'));
 
@@ -19,6 +21,7 @@ function WeeklyReports() {
         score: "",
         sentiment: "",
     });
+    const [chartData, setChartData] = useState({ labels: [], datasets: [] });
 
     useEffect(() => {
         const fetchSnippets = async () => {
@@ -47,6 +50,25 @@ function WeeklyReports() {
         }
 
         setSelectedSnippetIds(selectedValues);
+        updateChartData(selectedValues);
+    };
+
+    const updateChartData = (selectedSnippetIds) => {
+        const selectedSnippets = snippets.filter(snippet => selectedSnippetIds.includes(snippet.id.toString()));
+
+        const labels = selectedSnippets.map(snippet => new Date(snippet.date).toLocaleDateString());
+        const data = selectedSnippets.map(snippet => snippet.score);
+
+        setChartData({
+            labels,
+            datasets: [{
+                label: 'Snippet Scores',
+                data,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+            }]
+        });
     };
 
     const handleSubmit = async (event) => {
@@ -161,6 +183,21 @@ function WeeklyReports() {
                 </form>
             )}
 
+            {chartData.labels.length > 0 && (
+                <div className="w-full max-w-md mt-8">
+                    <Bar
+                        data={chartData}
+                        options={{
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }}
+                    />
+                </div>
+            )}
+
             <h1 className="weekly-report-title">Weekly Report:</h1>
             <Suspense fallback={<div>Loading editor...</div>}>
                 <ReactQuill
@@ -256,3 +293,4 @@ function WeeklyReports() {
 }
 
 export default WeeklyReports;
+
