@@ -1,11 +1,12 @@
-import React, { useState, useEffect, startTransition, Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import axios from "axios";
 import 'react-quill/dist/quill.snow.css'; 
 import { useAuth } from "../AuthProvider";
+import './WeeklyReports.css';  // Import the new CSS file
 
 const ReactQuill = React.lazy(() => import('react-quill'));
 
-function Users() {
+function WeeklyReports() {
     const { user } = useAuth();
     const [snippets, setSnippets] = useState([]);
     const [selectedSnippetIds, setSelectedSnippetIds] = useState([]);
@@ -135,11 +136,11 @@ function Users() {
     };
 
     return (
-        <main className="flex min-h-screen flex-col items-center p-24">
-            <h1>User ID: {user.id}</h1>
+        <main className="weekly-report-container flex min-h-screen flex-col items-center p-24">
+            <h1 className="weekly-report-title">Weekly Reports</h1>
 
             {snippets.length > 0 && (
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="weekly-report-form">
                     <label htmlFor="snippet-select">Select Snippets:</label>
                     <select 
                         id="snippet-select" 
@@ -160,13 +161,13 @@ function Users() {
                 </form>
             )}
 
-            <h1>Weekly Report:</h1>
+            <h1 className="weekly-report-title">Weekly Report:</h1>
             <Suspense fallback={<div>Loading editor...</div>}>
                 <ReactQuill
                     value={weeklyReport}
                     onChange={setWeeklyReport}
                     placeholder="Weekly report"
-                    className="w-full p-2 border border-gray-300 rounded"
+                    className="weekly-report-enriched-text w-full p-2 border border-gray-300 rounded"
                 />
             </Suspense>
             <button onClick={handleAnalyzeSubmit} className="mt-4 p-2 bg-yellow-500 text-white rounded">
@@ -222,7 +223,7 @@ function Users() {
 
                 {/* Additional input fields for sentiment analysis data */}
                 <div className="w-full">
-                    <h2 className="text-gray-500 text-center mb-2">Sentiment Analysis Data:</h2>
+                    <h2 className="sentiment-analysis-data-text">Sentiment Analysis Data:</h2>
                     <input
                         type="text"
                         value={results.explanations}
@@ -254,4 +255,4 @@ function Users() {
     );
 }
 
-export default Users;
+export default WeeklyReports;

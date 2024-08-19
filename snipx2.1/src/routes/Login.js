@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useAuth } from "../AuthProvider";
+import './Login.css'
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -29,13 +30,13 @@ const Login = () => {
   // useEffect to check for user state and navigate accordingly on user's auth state change
   useEffect(() => {
     // if user authenticated both locally and in firebase
-    if (user.email) {
+    if (user?.email) {
       return navigate("/home");
       // if user locally not authenticated, only in firebase, then check user on backend to authenticate locally
     } else if (!loading && firebaseUser) {
       checkDatabase(firebaseUser);
     }
-  }, [user, loading]);
+  }, [user, loading, firebaseUser, navigate, checkDatabase]);
 
   // Function to handle form submission, which initiates login process
   const handleSubmit = (event) => {
@@ -48,7 +49,7 @@ const Login = () => {
       <Card variant="outlined">
         <CardContent>
           <Box component="form" onSubmit={handleSubmit} autoComplete="on">
-          <div className="auth-container">
+            <div className="auth-container">
               <Button
                 variant="contained"
                 type="submit"

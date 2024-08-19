@@ -59,12 +59,10 @@ td {
     color: #333;
 }
 
-.auto-resize {
+.edit-box {
     border: none;
-    resize: both; /* Prevent manual resizing */
+    resize: both;
     overflow: auto;
-    
-;
 }
 
 /* Transparent Spacer Styling */

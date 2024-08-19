@@ -278,29 +278,24 @@ const Snippets = () => {
                             />
                         </div>
 
-                        <div className="flex justify-center mt-4">
+                        <div className="button-group flex justify-center mt-4">
                             <button
                                 onClick={handleApprove}
-                                className="approve-button"
+                                className="approve-button mb-4"
                             >
                                 Approve
+                            </button>
+                            <button
+                            onClick={toggleGraphic}>
+                                {showGraphic ? "Hide Graphic" : "Show Graphic"}
                             </button>
                         </div>
                     </>
                 )}
             </div>
 
-            <div className="flex justify-center mt-8">
-                <button
-                    onClick={toggleGraphic}
-                    className="mt-4 p-2 bg-green-500 text-white rounded"
-                >
-                    {showGraphic ? "Hide Graphic" : "Show Graphic"}
-                </button>
-            </div>
-
             {showGraphic && (
-                <div className="mt-8 w-full">
+                <div className="graphic-placeholder mt-8 w-full">
                     <Line data={data} options={options} />
                 </div>
             )}
