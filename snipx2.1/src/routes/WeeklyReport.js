@@ -1,11 +1,12 @@
-import React, { useState, useEffect, startTransition, Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import axios from "axios";
 import 'react-quill/dist/quill.snow.css'; 
 import { useAuth } from "../AuthProvider";
+import './WeeklyReports.css';  // Import the new CSS file
 
 const ReactQuill = React.lazy(() => import('react-quill'));
 
-function Users() {
+function WeeklyReports() {
     const { user } = useAuth();
     const [snippets, setSnippets] = useState([]);
     const [selectedSnippetIds, setSelectedSnippetIds] = useState([]);
@@ -39,7 +40,7 @@ function Users() {
         const selectedValues = Array.from(options)
             .filter(option => option.selected)
             .map(option => option.value);
-        
+
         if (selectedValues.length > 5) {
             alert("You can only select up to 5 snippets.");
             return; 
@@ -135,11 +136,11 @@ function Users() {
     };
 
     return (
-        <main className="flex min-h-screen flex-col items-center p-24">
-            <h1>User ID: {user.id}</h1>
+        <main className="weekly-report-container flex min-h-screen flex-col items-center p-24">
+            <h1 className="weekly-report-title">Weekly Reports</h1>
 
             {snippets.length > 0 && (
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="weekly-report-form">
                     <label htmlFor="snippet-select">Select Snippets:</label>
                     <select 
                         id="snippet-select" 
@@ -160,7 +161,7 @@ function Users() {
                 </form>
             )}
 
-            <h1>Weekly Report:</h1>
+            <h1 className="weekly-report-title">Weekly Report:</h1>
             <Suspense fallback={<div>Loading editor...</div>}>
                 <ReactQuill
                     value={weeklyReport}
@@ -254,4 +255,4 @@ function Users() {
     );
 }
 
-export default Users;
+export default WeeklyReports;
