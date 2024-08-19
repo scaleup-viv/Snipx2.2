@@ -16,7 +16,7 @@ const NavBar = () => {
                                 <Link to="/login" onClick={logout}>LOGOUT</Link>
                             </li>
                             <li>
-                                <Link to="/home">CREATE SNIPPETS</Link>
+                                <Link to="/add-snippet">CREATE SNIPPETS</Link>
                             </li>
                             <li>
                                 <Link to="/weekly-report">WEEKLY REPORT</Link>
