@@ -1,9 +1,15 @@
 /* Weekly Report Page Styling */
+:root {
+    --container-color1: #E4277D;
+    --container-color2: #FFB300;
+    --btn-bg-color : #E4277D;
+}
+
 .weekly-report-container {
     max-width: 1200px;
     margin: 40px auto;
     padding: 20px;
-    background: linear-gradient(135deg, #E4277D, #FFB300);
+    background: linear-gradient(135deg, var(--container-color1),  var(--container-color2));
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }

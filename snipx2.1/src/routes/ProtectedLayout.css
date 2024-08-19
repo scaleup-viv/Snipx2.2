@@ -1,10 +1,15 @@
 
 /* Styling for the access-restricted container */
+:root {
+    --container-color1: #E4277D;
+    --container-color2: #FFB300;
+}
+
 .access-restricted {
     width: 80%;
     max-width: 800px;
     margin: 40px auto;
-    background: linear-gradient(135deg, #E4277D,#FFB300); /* Gradient background */
+    background: linear-gradient(135deg, var(--container-color1),var(--container-color2)); /* Gradient background */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);

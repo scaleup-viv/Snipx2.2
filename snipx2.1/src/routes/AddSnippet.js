@@ -3,6 +3,7 @@ import 'react-quill/dist/quill.snow.css';
 import './AddSnippet.css';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { useAuth } from "../AuthProvider";
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -11,6 +12,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 const ReactQuill = React.lazy(() => import('react-quill'));
 
 const Snippets = () => {
+    const { user } = useAuth();
     const [inputText, setInputText] = useState("");
     const [results, setResults] = useState({ green: [], orange: [], red: [], explanations: "", score: "", sentiment: "" });
     const [showOutputs, setShowOutputs] = useState(false);
@@ -19,6 +21,7 @@ const Snippets = () => {
     const [dates, setDates] = useState([]);
     const [currentScore, setCurrentScore] = useState("");
     const [currentDate, setCurrentDate] = useState("");
+    const [loading, setLoading] = useState(false); // Loading state
 
     useEffect(() => {
         const now = new Date();
@@ -28,6 +31,7 @@ const Snippets = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setLoading(true); // Start loading
 
         try {
             const response1 = await fetch(`https://extension-360407.lm.r.appspot.com/api/analyze`, {
@@ -65,6 +69,8 @@ const Snippets = () => {
             setShowOutputs(true);
         } catch (error) {
             console.error("Error fetching data:", error);
+        } finally {
+            setLoading(false); // Stop loading
         }
     };
 
@@ -77,8 +83,9 @@ const Snippets = () => {
     };
 
     const handleApprove = async () => {
+        setLoading(true); // Start loading
         const payload = {
-            snipx_user_id: 1,
+            snipx_user_id: user.id,
             type: "daily",
             inputText,
             date: currentDate,
@@ -106,6 +113,9 @@ const Snippets = () => {
             const result = await response.json();
             console.log("API response:", result);
 
+            // Show an alert when the response is received
+            window.alert("Data has been successfully approved!");
+
             if (currentScore !== "" && currentDate !== "") {
                 setScores([...scores, parseInt(currentScore)]);
                 setDates([...dates, currentDate]);
@@ -114,6 +124,9 @@ const Snippets = () => {
             }
         } catch (error) {
             console.error("Error:", error);
+            window.alert("An error occurred while approving the data.");
+        } finally {
+            setLoading(false); // Stop loading
         }
     };
 
@@ -123,7 +136,7 @@ const Snippets = () => {
             {
                 label: 'Sentiment Score',
                 data: scores,
-                borderColor: '#E4277D',
+                borderColor: getComputedStyle(document.documentElement).getPropertyValue('--btn-bg-color').trim(),
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 fill: false,
                 tension: 0.1,
@@ -175,11 +188,17 @@ const Snippets = () => {
                             className="w-full p-2 border border-gray-300 rounded"
                         />
                     </Suspense>
-                    <button type="submit" className="mt-4 p-2 bg-blue-500 text-white rounded">
-                        Submit
+                    <button type="submit" className="mt-4 p-2 bg-blue-500 text-white rounded" disabled={loading}>
+                        {loading ? "Submitting..." : "Submit"}
                     </button>
                 </form>
             </div>
+
+            {loading && (
+                <div className="loading-container">
+                    <div className="spinner"></div>
+                </div>
+            )}
 
             <div className="flex flex-col items-center w-full max-w-lg mt-8 space-y-4">
                 {showOutputs && results.green.length > 0 && (
@@ -282,12 +301,13 @@ const Snippets = () => {
                             <button
                                 onClick={handleApprove}
                                 className="approve-button mb-4"
+                                disabled={loading} // Disable during loading
                             >
-                                Approve
+                                {loading ? "Approving..." : "Approve"} {/* Update text based on loading state */}
                             </button>
                             <button
                             onClick={toggleGraphic}>
-                                {showGraphic ? "Hide Graphic" : "Show Graphic"}
+                                {showGraphic ? "Hide Graph" : "Show Graph"}
                             </button>
                         </div>
                     </>
