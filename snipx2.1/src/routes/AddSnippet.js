@@ -3,6 +3,8 @@ import 'react-quill/dist/quill.snow.css';
 import './AddSnippet.css';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { useAuth } from "../AuthProvider";
+
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -11,6 +13,8 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 const ReactQuill = React.lazy(() => import('react-quill'));
 
 const Snippets = () => {
+
+    const { user } = useAuth();
     const [inputText, setInputText] = useState("");
     const [results, setResults] = useState({ green: [], orange: [], red: [], explanations: "", score: "", sentiment: "" });
     const [showOutputs, setShowOutputs] = useState(false);
@@ -78,7 +82,7 @@ const Snippets = () => {
 
     const handleApprove = async () => {
         const payload = {
-            snipx_user_id: 1,
+            snipx_user_id: user.id,
             type: "daily",
             inputText,
             date: currentDate,
