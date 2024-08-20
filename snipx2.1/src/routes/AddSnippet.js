@@ -12,6 +12,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 const ReactQuill = React.lazy(() => import('react-quill'));
 
 const Snippets = () => {
+
     const { user } = useAuth();
     const [inputText, setInputText] = useState("");
     const [results, setResults] = useState({ green: [], orange: [], red: [], explanations: "", score: "", sentiment: "" });
@@ -84,6 +85,7 @@ const Snippets = () => {
 
     const handleApprove = async () => {
         setLoading(true); // Start loading
+
         const payload = {
             snipx_user_id: user.id,
             type: "daily",
@@ -254,7 +256,7 @@ const Snippets = () => {
 
                 {showOutputs && (
                     <>
-                        <div className="w-full">
+                                               <div className="w-full">
                             <h2 className="text-gray-500 text-center mb-2">Explanations:</h2>
                             <textarea
                                 value={results.explanations}
@@ -300,6 +302,7 @@ const Snippets = () => {
                         <div className="button-group flex justify-center mt-4">
                             <button
                                 onClick={handleApprove}
+
                                 className="approve-button mb-4"
                                 disabled={loading} // Disable during loading
                             >
@@ -308,6 +311,7 @@ const Snippets = () => {
                             <button
                             onClick={toggleGraphic}>
                                 {showGraphic ? "Hide Graph" : "Show Graph"}
+
                             </button>
                         </div>
                     </>
@@ -324,3 +328,4 @@ const Snippets = () => {
 };
 
 export default Snippets;
+
