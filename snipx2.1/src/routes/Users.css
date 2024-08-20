@@ -1,9 +1,15 @@
 /* Users Page Styling */
+:root {
+    --container-color1: #E4277D;
+    --container-color2: #FFB300;
+    --btn-bg-color : #E4277D;
+}
+
 .users-container {
     width: 80%;
     max-width: 900px;
     margin: 40px auto;
-    background: linear-gradient(135deg, #E4277D, #FFB300); /* Gradient background */
+    background: linear-gradient(135deg, var(--container-color1), var(--container-color2)); /* Gradient background */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -46,7 +52,7 @@
 }
 
 .create-button {
-    background: #E4277D;
+    background: var(--btn-bg-color);
     color: white;
     padding: 10px 20px;
     font-size: 16px;
@@ -58,7 +64,7 @@
 
 .create-button:hover {
     background: white;
-    color: #E4277D;
+    color: var(--btn-bg-color);
 }
 
 .users-table {
@@ -94,7 +100,7 @@ td {
 }
 
 .edit-button, .delete-button {
-    background: #E4277D;
+    background: var(--btn-bg-color);
     color: white;
     padding: 8px 12px;
     font-size: 14px;
@@ -106,5 +112,5 @@ td {
 
 .edit-button:hover, .delete-button:hover {
     background: white;
-    color: #E4277D;
+    color: var(--btn-bg-color);
 }

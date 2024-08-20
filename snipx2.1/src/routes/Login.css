@@ -1,3 +1,7 @@
+:root {
+    --btn-bg-color : #E4277D;
+}
+
 .auth-container {
     display: flex;
     justify-content: center;
@@ -7,7 +11,7 @@
 }
 
 .auth-container button {
-    background: #E4277D;
+    background: var(--btn-bg-color);
     color: white;
     font-size: 18px;
     padding: 15px 30px;
@@ -17,5 +21,5 @@
 
 .auth-container button:hover {
     background: white;
-    color: #E4277D;
+    color: var(--btn-bg-color);
 }

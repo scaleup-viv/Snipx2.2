@@ -204,7 +204,7 @@ function WeeklyReports() {
                     value={weeklyReport}
                     onChange={setWeeklyReport}
                     placeholder="Weekly report"
-                    className="w-full p-2 border border-gray-300 rounded"
+                    className="weekly-report-enriched-text w-full p-2 border border-gray-300 rounded"
                 />
             </Suspense>
             <button onClick={handleAnalyzeSubmit} className="mt-4 p-2 bg-yellow-500 text-white rounded">

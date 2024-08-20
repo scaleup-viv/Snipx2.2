@@ -1,7 +1,15 @@
 /* Global Styles */
+
+:root {
+    --navbar-color: #FFB300;
+    --bg-color : #ebedee;
+    --btn-bg-color: #E4277D;
+}
+
+
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #ebedee;
+    background-color: var(--bg-color);
     margin: 0;
     padding: 0;
     color: #333;
@@ -14,7 +22,7 @@ h2 {
 }
 
 button {
-    background: #E4277D;
+    background: var(--btn-bg-color);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -26,7 +34,7 @@ button {
 
 button:hover {
     background:white; /*Reverse colors on hover*/
-    color: #E4277D;
+    color: var(--btn-bg-color);
     transform: scale(1.05); /* Slight scale effect on hover */
 }
 
@@ -43,11 +51,11 @@ textarea {
 
 textarea:focus {
     outline: none;
-    border-color: #E4277D; /* Gradient color for focus border */
+    border-color: var(--btn-bg-color); /* Gradient color for focus border */
 }
 
 nav {
-    background-color: #FFB300; /* Set the background color to #FFB300 */
+    background-color: var(--navbar-color);
     padding: 10px;
     border-radius: 10px; /* Rounded corners for a modern look */
 }
