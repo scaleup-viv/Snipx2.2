@@ -17,4 +17,6 @@ ChartJS.register(
     Title,
     Tooltip,
     Legend
+
 );
+

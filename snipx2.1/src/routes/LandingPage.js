@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
@@ -199,6 +200,7 @@ const Home = ({ isDarkMode }) => {
       </div>
     </div>
   );
+
 };
 
 export default Home;
