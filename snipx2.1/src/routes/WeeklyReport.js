@@ -22,6 +22,7 @@ function WeeklyReports() {
         sentiment: "",
     });
     const [chartData, setChartData] = useState({ labels: [], datasets: [] });
+    const [loading, setLoading] = useState(false); // New state for loading spinner
 
     useEffect(() => {
         const fetchSnippets = async () => {
@@ -73,6 +74,7 @@ function WeeklyReports() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setLoading(true);  // Start loading
         try {
             const response = await axios.post("https://extension-360407.lm.r.appspot.com/api/weeklySnippet", { snippetIds: selectedSnippetIds });
             setWeeklyReport(response.data.weeklyReport);
@@ -80,10 +82,13 @@ function WeeklyReports() {
         } catch (error) {
             console.error("Error submitting snippets:", error);
             alert("Failed to submit snippets.");
+        } finally {
+            setLoading(false);  // Stop loading
         }
     };
 
     const handleAnalyzeSubmit = async () => {
+        setLoading(true);  // Start loading
         try {
             const response1 = await axios.post("https://extension-360407.lm.r.appspot.com/api/analyze", { text: weeklyReport });
             const data1 = response1.data;
@@ -104,6 +109,8 @@ function WeeklyReports() {
         } catch (error) {
             console.error("Error analyzing text:", error);
             alert("Failed to analyze the report.");
+        } finally {
+            setLoading(false);  // Stop loading
         }
     };
 
@@ -178,7 +185,7 @@ function WeeklyReports() {
                         ))}
                     </select>
                     <button type="submit" className="mt-4 p-2 bg-blue-500 text-white rounded">
-                        Submit
+                        {loading ? "Submitting..." : "Submit"} {/* Displaying loading text */}
                     </button>
                 </form>
             )}
@@ -204,11 +211,11 @@ function WeeklyReports() {
                     value={weeklyReport}
                     onChange={setWeeklyReport}
                     placeholder="Weekly report"
-                    className="w-full p-2 border border-gray-300 rounded"
+                    className="weekly-report-enriched-text w-full p-2 border border-gray-300 rounded"
                 />
             </Suspense>
             <button onClick={handleAnalyzeSubmit} className="mt-4 p-2 bg-yellow-500 text-white rounded">
-                Analyze Report
+                {loading ? "Analyzing..." : "Analyze Report"} {/* Displaying loading text */}
             </button>
 
             <div className="flex flex-col items-center w-full max-w-lg mt-8 space-y-4">
@@ -288,6 +295,9 @@ function WeeklyReports() {
                     Approve
                 </button>
             </div>
+
+            {/* Conditionally rendering the loading spinner */}
+            {loading && <div className="loading-spinner">Loading...</div>}
         </main>
     );
 }
