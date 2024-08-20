@@ -7,6 +7,7 @@ import WeeklyReport from "./routes/WeeklyReport";
 import NotAuthorized from "./routes/NotAuthorized";
 import Login from "./routes/Login";
 import NavBar from './routes/NavBar';
+import Graphs from "./routes/Graphs";
 import {
   Route,
   createBrowserRouter,
@@ -35,6 +36,7 @@ export const router = createBrowserRouter(
           <Route path="add-snippet" element={<AddSnippet />} />
           <Route path="weekly-report" element={<WeeklyReport />} />
           <Route path="my-snippets" element={<MySnippets />} />
+          <Route path="graphs" element={<Graphs />} />
         <Route element={<ProtectedLayout />}>
           
           <Route path="snippets" element={<Snippets />} />

@@ -138,7 +138,7 @@ const Snippets = () => {
             {
                 label: 'Sentiment Score',
                 data: scores,
-                borderColor: '#E4277D',
+                borderColor: getComputedStyle(document.documentElement).getPropertyValue('--btn-bg-color').trim(),
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 fill: false,
                 tension: 0.1,
@@ -299,30 +299,27 @@ const Snippets = () => {
                             />
                         </div>
 
-                        <div className="flex justify-center mt-4">
+                        <div className="button-group flex justify-center mt-4">
                             <button
                                 onClick={handleApprove}
-                                className="approve-button"
+
+                                className="approve-button mb-4"
                                 disabled={loading} // Disable during loading
                             >
                                 {loading ? "Approving..." : "Approve"} {/* Update text based on loading state */}
+                            </button>
+                            <button
+                            onClick={toggleGraphic}>
+                                {showGraphic ? "Hide Graph" : "Show Graph"}
+
                             </button>
                         </div>
                     </>
                 )}
             </div>
 
-            <div className="flex justify-center mt-8">
-                <button
-                    onClick={toggleGraphic}
-                    className="mt-4 p-2 bg-green-500 text-white rounded"
-                >
-                    {showGraphic ? "Hide Graphic" : "Show Graphic"}
-                </button>
-            </div>
-
             {showGraphic && (
-                <div className="mt-8 w-full">
+                <div className="graphic-placeholder mt-8 w-full">
                     <Line data={data} options={options} />
                 </div>
             )}

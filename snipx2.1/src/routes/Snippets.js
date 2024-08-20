@@ -1,9 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import './Snippets.css';
-import { useAuth } from "../AuthProvider";
 
 function Snippets() {
-  const { user } = useAuth();
   const [snippets, setSnippets] = useState([]);
   const [users, setUsers] = useState([]);
   const [editingSnippetId, setEditingSnippetId] = useState(null);
@@ -32,13 +30,7 @@ function Snippets() {
   useEffect(() => {
     const fetchSnippets = async () => {
       try {
-        const response = await fetch("https://extension-360407.lm.r.appspot.com/api/company_snippets", {
-          method: "POST", 
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(user),
-        });
+        const response = await fetch("https://extension-360407.lm.r.appspot.com/api/snipx_snippets");
         const data = await response.json();
         setSnippets(data);
       } catch (error) {
@@ -58,14 +50,16 @@ function Snippets() {
 
     fetchSnippets();
     fetchUsers();
-  }, [user]);
+  }, []);
+
 
   useEffect(() => {
     // Trigger resize whenever editingSnippetId is set
     if (editingSnippetId !== null) {
       resizeAllTextAreas();
     }
-  }, [editingSnippetId]);
+  }, [editingSnippetId]); // Re-run whenever editingSnippetId changes
+
 
   const handleDelete = async (id) => {
     try {
@@ -122,6 +116,7 @@ function Snippets() {
       console.error("Error saving snippet:", error);
     }
   };
+  
 
   const handleCancel = () => {
     setEditingSnippetId(null);
@@ -144,68 +139,63 @@ function Snippets() {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold text-white mb-6 text-center">Snippets</h1>
+    <div className="container mx-auto p-4"> {/* Updated container class */}
+    <h1 className="text-3xl font-bold text-white mb-6 text-center">Snippets</h1>
 
-      <div className="table-wrapper overflow-x-auto">
-        <table className="min-w-full bg-gradient-to-r from-ffb300 to-e4277d border border-gray-300 rounded-lg">
-          <thead>
-            <tr className="bg-opacity-80 bg-white">
-              <th className="py-3 px-4 text-left font-bold text-gray-800">ID</th>
-              <th className="py-3 px-4 text-left font-bold text-gray-800">Type</th>
-              <th className="py-3 px-4 text-left font-bold text-gray-800">Date</th>
-              <th className="py-3 px-4 text-left font-bold text-gray-800">Snippet Text</th>
-              <th className="py-3 px-4 text-left font-bold text-gray-800">Green</th>
-              <th className="py-3 px-4 text-left font-bold text-gray-800">Orange</th>
-              <th className="py-3 px-4 text-left font-bold text-gray-800">Red</th>
-              <th className="py-3 px-4 text-left font-bold text-gray-800">Explanations</th>
-              <th className="py-3 px-4 text-left font-bold text-gray-800">Score</th>
-              <th className="py-3 px-4 text-left font-bold text-gray-800">Sentiment</th>
-              <th className="py-3 px-4 text-left font-bold text-gray-800">Assigned User</th>
-              <th className="py-3 px-4 text-left font-bold text-gray-800">Actions</th>
-            </tr>
+    <div className="table-wrapper overflow-x-auto">
+      <table className="min-w-full bg-gradient-to-r from-ffb300 to-e4277d border border-gray-300 rounded-lg">
+        <thead>
+          <tr className="bg-opacity-80 bg-white">
+            <th className="py-3 px-4 text-left font-bold text-gray-800">ID</th>
+            <th className="py-3 px-4 text-left font-bold text-gray-800">Type</th>
+            <th className="py-3 px-4 text-left font-bold text-gray-800">Date</th>
+            <th className="py-3 px-4 text-left font-bold text-gray-800">Snippet Text</th>
+            <th className="py-3 px-4 text-left font-bold text-gray-800">Green</th>
+            <th className="py-3 px-4 text-left font-bold text-gray-800">Orange</th>
+            <th className="py-3 px-4 text-left font-bold text-gray-800">Red</th>
+            <th className="py-3 px-4 text-left font-bold text-gray-800">Explanations</th>
+            <th className="py-3 px-4 text-left font-bold text-gray-800">Score</th>
+            <th className="py-3 px-4 text-left font-bold text-gray-800">Sentiment</th>
+            <th className="py-3 px-4 text-left font-bold text-gray-800">Assigned User</th>
+            <th className="py-3 px-4 text-left font-bold text-gray-800">Actions</th>
+          </tr>
           </thead>
           <tbody>
-            {snippets.map((snippet, index) => (
+          {snippets.map((snippet,index) => (
               <tr key={snippet.id} className="bg-white bg-opacity-60 border-t border-gray-300">
                 <td className="py-2 px-4">{snippet.id}</td>
-                <td className="py-2 px-4">
-                  {editingSnippetId === snippet.id ? (
+                <td className="py-2 px-4">{editingSnippetId === snippet.id ? (
                     <input
                       type="text"
                       value={editingSnippet.type}
                       onChange={(e) => {
                         setEditingSnippet({ ...editingSnippet, type: e.target.value });
                       }}
-                      className="auto-resize border rounded px-2 py-1 w-full"
+                      className="edit-box"
                     />
                   ) : (
                     snippet.type || ""
-                  )}
-                </td>
-                <td className="py-2 px-4">
-                  {editingSnippetId === snippet.id ? (
+                  )}</td>
+                <td className="py-2 px-4">{editingSnippetId === snippet.id ? (
                     <input
                       type="text"
                       value={editingSnippet.date}
                       onChange={(e) => {
                         setEditingSnippet({ ...editingSnippet, date: e.target.value });
                       }}
-                      className="auto-resize border rounded px-2 py-1 w-full"
+                      className="edit-box"
                     />
                   ) : (
                     snippet.date || ""
-                  )}
-                </td>
-                <td className="py-2 px-4">
-                  {editingSnippetId === snippet.id ? (
+                  )}</td>
+                <td className="py-2 px-4">{editingSnippetId === snippet.id ? (
                     <textarea
                       ref={el => (textRef.current[index] = el)} // Store the ref in textRef
                       value={editingSnippet.text}
                       onChange={(e) => {
                         setEditingSnippet({ ...editingSnippet, text: e.target.value });
                       }}
-                      className="auto-resize border rounded px-2 py-1 w-full"
+                      className="edit-box"
                     />
                   ) : (
                     snippet.text || ""
@@ -219,7 +209,7 @@ function Snippets() {
                       onChange={(e) => {
                         setEditingSnippet({ ...editingSnippet, green: e.target.value });
                       }}
-                      className="auto-resize border rounded px-2 py-1 w-full"
+                      className="edit-box"
                     />
                   ) : (
                     snippet.green || ""
@@ -233,7 +223,7 @@ function Snippets() {
                       onChange={(e) => {
                         setEditingSnippet({ ...editingSnippet, orange: e.target.value });
                       }}
-                      className="auto-resize border rounded px-2 py-1 w-full"
+                      className="edit-box"
                     />
                   ) : (
                     snippet.orange || ""
@@ -247,7 +237,7 @@ function Snippets() {
                       onChange={(e) => {
                         setEditingSnippet({ ...editingSnippet, red: e.target.value });
                       }}
-                      className="auto-resize border rounded px-2 py-1 w-full"
+                      className="edit-box"
                     />
                   ) : (
                     snippet.red || ""
@@ -261,7 +251,7 @@ function Snippets() {
                       onChange={(e) => {
                         setEditingSnippet({ ...editingSnippet, explanations: e.target.value });
                       }}
-                      className="auto-resize border rounded px-2 py-1 w-full"
+                      className="edit-box"
                     />
                   ) : (
                     snippet.explanations || ""
@@ -275,7 +265,7 @@ function Snippets() {
                       onChange={(e) => {
                         setEditingSnippet({ ...editingSnippet, score: e.target.value });
                       }}
-                      className="auto-resize border rounded px-2 py-1 w-full"
+                      className="edit-box"
                     />
                   ) : (
                     snippet.score || ""
@@ -289,25 +279,44 @@ function Snippets() {
                       onChange={(e) => {
                         setEditingSnippet({ ...editingSnippet, sentiment: e.target.value });
                       }}
-                      className="auto-resize border rounded px-2 py-1 w-full"
+                      className="edit-box"
                     />
                   ) : (
                     snippet.sentiment || ""
                   )}
                 </td>
-                <td className="py-2 px-4">{getUserEmail(snippet.user_id)}</td>
                 <td className="py-2 px-4">
+                  {editingSnippetId === snippet.id ? (
+                    <select
+                      value={editingSnippet.user_id}
+                      onChange={(e) => {
+                        setEditingSnippet({ ...editingSnippet, user_id: e.target.value });
+                      }}
+                      className="edit-box"
+                    >
+                      <option value="">Assign to User</option>
+                      {users.map((user) => (
+                        <option key={user.id} value={user.id}>
+                          {user.email}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    getUserEmail(snippet.user_id)
+                  )}
+                </td>
+                <td className="py-2 px-4 flex space-x-2">
                   {editingSnippetId === snippet.id ? (
                     <>
                       <button
                         onClick={() => handleSave(snippet.id)}
-                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
+                        className="text-green-600 hover:text-green-800 font-medium mr-2"
                       >
                         Save
                       </button>
                       <button
                         onClick={handleCancel}
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                        className="text-gray-600 hover:text-gray-800 font-medium"
                       >
                         Cancel
                       </button>
@@ -316,13 +325,11 @@ function Snippets() {
                     <>
                       <button
                         onClick={() => handleEditClick(snippet)}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDelete(snippet.id)}
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                       >
                         Delete
                       </button>
@@ -333,6 +340,8 @@ function Snippets() {
             ))}
           </tbody>
         </table>
+        {/* Transparent spacer */}
+        <div className="spacer"><p>111</p></div>
       </div>
     </div>
   );

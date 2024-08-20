@@ -1,0 +1,164 @@
+:root {
+    --btn-bg-color: #E4277D;
+    --black-text : white;
+    --graph-line-color: #FFB300;
+}
+
+
+.landing-page {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px;
+    padding: 40px;
+  }
+  
+  .profile-section {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+  }
+  
+  .profile-info {
+    color: var(--black-text);
+    font-size: 24px;
+  }
+
+  .profile-info h2{
+    color: var(--black-text);
+  }
+  
+  .overview-section {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .landng-page-table-wrapper {
+    max-height: 200px; /* Adjust this value based on your layout */
+    overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+  }
+  
+  .overview-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .overview-table th,
+  .overview-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  .highlighted-row {
+  background-color: rgba(228, 39, 125, 0.3); /* Special color for the selected day */
+  }
+
+  .analysis-section {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .analysis-section h2{
+    color: var(--black-text);
+  }
+  .sentiment-analysis-graph{
+    width: 100%;
+    height: 100%;
+  }
+  
+  .average-score {
+    margin-top: 20px;
+  }
+  
+  .circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+  
+  .calendar-section {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .calendar-controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .calendar-controls button {
+    padding: 10px 20px;
+    border: none;
+    background-color: var(--btn-bg-color);
+    color: white;
+    cursor: pointer;
+  }
+  
+  .calendar-controls button:hover {
+    background-color: white;
+  }
+  
+  /* Calendar Header Styles */
+.react-calendar__navigation button {
+    color: black; /* Change to a visible color */
+    background-color: #ebedee;
+    font-weight: bold;
+}
+
+.react-calendar__navigation button:disabled {
+    color: #ccc; /* Style for disabled buttons */
+}
+
+.react-calendar__navigation {
+    background-color: #ebedee; /* Ensure the background is not transparent */
+    border-bottom: 1px solid #ddd;
+}
+
+.react-calendar__tile {
+    background: white; /* Ensure the tiles are visible */
+    color: black; /* Ensure the text is visible */
+}
+
+.react-calendar__tile--active {
+    background: var(--btn-bg-color); /* Highlight active day */
+    color: white;
+}
+.react-calendar__tile--active:enabled:focus {
+    background-color: var(--btn-bg-color); /* Maintain the same color on hover and focus */
+    color: white; 
+}
+.react-calendar__tile--hover {
+    background: rgba(228, 39, 125, 0.1); /* Slight hover effect */
+}
+
+/* Adjust the text color and hover for better contrast */
+.react-calendar__month-view__weekdays {
+    color: black;
+}
