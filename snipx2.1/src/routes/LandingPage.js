@@ -155,7 +155,7 @@ const Home = ({ isDarkMode }) => {
 
       <div className="overview-section">
         <h2>Weekly Overview</h2>
-        <div className="landng-page-table-wrapper">
+        <div className="landing-page-table-wrapper">
           <table className="overview-table">
             <thead>
               <tr>
@@ -189,13 +189,13 @@ const Home = ({ isDarkMode }) => {
 
       <div className="calendar-section">
         <Calendar onChange={handleDateChange} value={selectedDate} />
-        <div className="calendar-controls">
+        {/* <div className="calendar-controls">
           <button>Green</button>
           <button>Yellow</button>
           <button>Red</button>
           <button>Week</button>
           <button>Month</button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

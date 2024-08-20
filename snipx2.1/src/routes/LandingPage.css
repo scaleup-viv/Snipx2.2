@@ -48,7 +48,7 @@
     border-radius: 10px;
   }
 
-  .landng-page-table-wrapper {
+  .landing-page-table-wrapper {
     max-height: 200px; /* Adjust this value based on your layout */
     overflow-y: auto;
     overflow-x: hidden; /* Prevent horizontal scrolling */
@@ -100,11 +100,9 @@
   }
   
   .calendar-section {
-    grid-column: 2 / 3;
-    grid-row: 2 / 3;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
+    margin-top: 90px;
   }
   
   .calendar-controls {
@@ -124,6 +122,18 @@
   .calendar-controls button:hover {
     background-color: white;
   }
+
+
+  .react-calendar {
+    width: 100%; /* Make the calendar take up the full width of its container */
+    max-width: 500px; /* Set a maximum width for the calendar */
+    height : 100%;
+    max-height:350px;
+    font-size: 1.2rem; /* Increase the font size */
+    border: 1px solid #ddd; /* Remove border if you want */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    border-radius: 10px; /* Add rounded corners */
+  }  
   
   /* Calendar Header Styles */
 .react-calendar__navigation button {
@@ -139,6 +149,7 @@
 .react-calendar__navigation {
     background-color: #ebedee; /* Ensure the background is not transparent */
     border-bottom: 1px solid #ddd;
+    border-radius: 10px; /* Add rounded corners */
 }
 
 .react-calendar__tile {

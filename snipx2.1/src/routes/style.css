@@ -55,6 +55,7 @@ textarea:focus {
 }
 
 nav {
+    width: 100%;
     background-color: var(--navbar-color);
     padding: 10px;
     border-radius: 10px; /* Rounded corners for a modern look */

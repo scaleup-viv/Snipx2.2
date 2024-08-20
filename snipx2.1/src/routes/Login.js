@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useAuth } from "../AuthProvider";
-import './Login.css'
+import './Login.css'; // Ensure this contains styles specific to the landing page
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -10,59 +10,250 @@ import Box from "@mui/material/Box";
 import GoogleIcon from "@mui/icons-material/Google";
 import Button from "@mui/material/Button";
 
-const Login = () => {
-  // Getting auth functions and user details from Auth context using useAuth hook (AuthProvider.js)
-  const { user, login, auth, checkDatabase } = useAuth();
-  // Using useAuthState to get current Firebase auth state, loading status
-  console.log("user")
-  console.log(user)
-  console.log("login")
-  console.log(login)
-  console.log("auth:")
-  console.log(auth)
-  console.log("checkDatabase:")
-  console.log(checkDatabase)
+import recapImage from './images/recap.png';  
+import heartImage from './images/heart.png';  
+import pdpImage from './images/pdp.png';  
+import calendarImage from './images/calendar.png';
+import arrowImage from './images/arrow.png';
+import marekImage from './images/Marek.png';
+import martinEImage from './images/MartinE.png';
+import martinSImage from './images/MartinS.png';
+import kristinaImage from './images/Kristina.png';
+import piotrImage from './images/Piotr.png';
 
+const Login = () => {
+  const { user, login, auth, checkDatabase } = useAuth();
   const [firebaseUser, loading] = useAuthState(auth);
-  // Using useNavigate hook to get function to programmatically navigate to different routes
   const navigate = useNavigate();
 
-  // useEffect to check for user state and navigate accordingly on user's auth state change
   useEffect(() => {
-    // if user authenticated both locally and in firebase
     if (user?.email) {
       return navigate("/home");
-      // if user locally not authenticated, only in firebase, then check user on backend to authenticate locally
     } else if (!loading && firebaseUser) {
       checkDatabase(firebaseUser);
     }
   }, [user, loading, firebaseUser, navigate, checkDatabase]);
 
-  // Function to handle form submission, which initiates login process
   const handleSubmit = (event) => {
     event.preventDefault();
     login();
   };
 
   return (
-    <>
-      <Card variant="outlined">
-        <CardContent>
-          <Box component="form" onSubmit={handleSubmit} autoComplete="on">
-            <div className="auth-container">
-              <Button
-                variant="contained"
-                type="submit"
-                startIcon={<GoogleIcon />}
-                className="login-button"
-              >
-                Continue with Google
-              </Button>
+    <div className="unconnected-landing-page">
+      {/* Login Button Section */}
+      <div className="login-section">
+        <Box component="form" onSubmit={handleSubmit} autoComplete="on">
+          <div className="auth-container">
+            <Button
+              variant="contained"
+              type="submit"
+              startIcon={<GoogleIcon />}
+              className="login-button"
+            >
+              Continue with Google
+            </Button>
+          </div>
+        </Box>
+      </div>
+
+      {/* The Problem Section */}
+      <div className= "section the-problem">
+        <h1>Problems</h1>
+        <ul>
+          <li>
+            <span className="icon">✖</span>
+            <strong>Inefficient Task Tracking</strong>
+          </li>
+          <li>
+            <span className="icon">✖</span>
+            <strong>Lack of Engagement</strong>
+          </li>
+          <li>
+            <span className="icon">✖</span>
+            <strong>Fragmented Communication</strong>
+          </li>
+          <li>
+            <span className="icon">✖</span>
+            <strong>Failure to Meet Deadline</strong>
+          </li>
+        </ul>
+      </div>
+
+      {/* Solution Section */}
+      <div className="section solution">
+        <h1>Solution</h1>
+        <ul className="solution-list">
+          <li>A revolutionary new HR tool</li>
+        </ul>
+        <div className="solution-icons">
+          <div className="icon-box">
+            <img src={recapImage} alt="Recap daily tasks" />
+            <p>Uses AI to recap daily tasks</p>
+          </div>
+          <div className="icon-box">
+            <img src={heartImage} alt="Monitors morale" />
+            <p>Monitors morale</p>
+          </div>
+          <div className="icon-box">
+            <img src={pdpImage} alt="Develops personalized PDP" />
+            <p>Develops personalized PDP</p>
+          </div>
+          <div className="icon-box">
+            <img src={calendarImage} alt="Tracks progression" />
+            <p>Tracks progression</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Market Section */}
+      <div className="section market">
+        <h1>The Market</h1>
+        <div className="market-content">
+          <div className="market-visual">
+            <div className="market-circle">
+              <span className="year">2022</span>
+              <span className="market-size">$260 billion</span>
             </div>
-          </Box>
-        </CardContent>
-      </Card>
-    </>
+            <div className="arrow">
+              <span>CAGR = 13.7%</span>
+              <img src={arrowImage} alt="Arrow" />
+            </div>
+            <div className="market-circle large">
+              <span className="year">2031</span>
+              <span className="market-size">$830 billion</span>
+            </div>
+          </div>
+          <div className="market-bullets">
+            <ul>
+              <li><strong>High demand</strong> for productivity tools with <strong>AI-driven automation</strong></li>
+              <li><strong>Increasing adoption</strong> of remote work <strong>boosting</strong> SaaS growth</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Landscape Section */}
+      <div className="section landscape">
+        <h2>Landscape</h2>
+        <table className="transposed-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Task Tracking & Reporting</th>
+              <th>AI-Driven Insights</th>
+              <th>Gamification & Engagement</th>
+              <th>Custom Apps & Solutions</th>
+              <th>Real-Time Communication & Collaboration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Snippets</strong></td>
+              <td>✓</td>
+              <td>✓</td>
+              <td>✓</td>
+              <td>✓</td>
+              <td>✓</td>
+            </tr>
+            <tr>
+              <td><strong>Wrike</strong></td>
+              <td>✓</td>
+              <td>✖</td>
+              <td>✖</td>
+              <td>✖</td>
+              <td>✖</td>
+            </tr>
+            <tr>
+              <td><strong>ClickUp</strong></td>
+              <td>✖</td>
+              <td>✓</td>
+              <td>✖</td>
+              <td>✖</td>
+              <td>✖</td>
+            </tr>
+            <tr>
+              <td><strong>Airtable</strong></td>
+              <td>✖</td>
+              <td>✖</td>
+              <td>✖</td>
+              <td>✓</td>
+              <td>✖</td>
+            </tr>
+            <tr>
+              <td><strong>Habitica</strong></td>
+              <td>✖</td>
+              <td>✖</td>
+              <td>✓</td>
+              <td>✖</td>
+              <td>✖</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* Company Purpose Section */}
+      <div className="section company-purpose">
+        <h1>Company Purpose</h1>
+          <p>
+            “To transform workplace productivity with an all-in-one platform that simplifies daily operations for businesses, delivering real-time insights and automating task tracking and reporting”
+          </p>
+      </div>
+
+      {/* Team Section */}
+      <div className="section team">
+        <h2>The Team</h2>
+        <div className="team-members">
+          <div className="team-member">
+            <img src={marekImage} alt="Marek" />
+            <h3>Marek</h3>
+            <p>CEO</p>
+          </div>
+          <div className="team-member">
+            <img src={martinSImage} alt="Martin" />
+            <h3>Martin</h3>
+            <p>COO</p>
+          </div>
+          <div className="team-member">
+            <img src={piotrImage} alt="Piotr" />
+            <h3>Piotr</h3>
+            <p>Senior Fellow</p>
+          </div>
+          <div className="team-member">
+            <img src={kristinaImage} alt="Kristina" />
+            <h3>Kristina</h3>
+            <p>Team Lead</p>
+          </div>
+          <div className="team-member">
+            <img src={martinEImage} alt="Martin" />
+            <h3>Martin</h3>
+            <p>Team Lead</p>
+          </div>
+        </div>
+        <div className="team-descriptions">
+          <ul>
+            <li>Lived and worked in 10 countries</li>
+            <li>Fluent in 6 languages</li>
+            <li>7+ years at Google</li>
+          </ul>
+          <ul>
+            <li>20+ years experience in technology projects</li>
+            <li>10+ years PM Experience</li>
+          </ul>
+          <ul>
+            <li>Previously Head of Marketing at eBay</li>
+            <li>Scaleup.Agency Partner (5+ years)</li>
+          </ul>
+          <ul>
+            <li>4+ years of experience as a Team Lead at SCALEUP</li>
+          </ul>
+          <ul>
+            <li>4+ years of experience as a Team Lead and PM</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
   );
 };
 
