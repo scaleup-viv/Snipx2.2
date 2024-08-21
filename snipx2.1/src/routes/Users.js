@@ -6,11 +6,11 @@ function Users() {
     const [users, setUsers] = useState([]);
     const [managerEmails, setManagerEmails] = useState({});
     const [newEmail, setNewEmail] = useState("");
-    const [newRole, setNewRole] = useState("");
+    const [newRole, setNewRole] = useState("user");  // Default role is "user"
     const [newManagerId, setNewManagerId] = useState("");
     const [editingUserId, setEditingUserId] = useState(null);
     const [editingEmail, setEditingEmail] = useState("");
-    const [editingRole, setEditingRole] = useState("");
+    const [editingRole, setEditingRole] = useState("user");  // Default role is "user"
     const [editingManagerId, setEditingManagerId] = useState("");
     const { user } = useAuth();
 
@@ -133,7 +133,7 @@ function Users() {
                 const newUser = await response.json();
                 setUsers([newUser, ...users]);
                 setNewEmail("");
-                setNewRole("");
+                setNewRole("user");  // Reset role to default "user"
                 setNewManagerId("");
                 fetchManagerEmails([newUser, ...users]); // Fetch emails after creating a user
             } else {
@@ -159,13 +159,14 @@ function Users() {
                         onChange={(e) => setNewEmail(e.target.value)}
                         className="input-field"
                     />
-                    <input
-                        type="text"
-                        placeholder="Role"
+                    <select
                         value={newRole}
                         onChange={(e) => setNewRole(e.target.value)}
                         className="input-field"
-                    />
+                    >
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
                     <select
                         value={newManagerId}
                         onChange={(e) => setNewManagerId(e.target.value)}
@@ -214,12 +215,14 @@ function Users() {
                                 </td>
                                 <td>
                                     {editingUserId === user.id ? (
-                                        <input
-                                            type="text"
+                                        <select
                                             value={editingRole}
                                             onChange={(e) => setEditingRole(e.target.value)}
                                             className="input-field"
-                                        />
+                                        >
+                                            <option value="user">User</option>
+                                            <option value="admin">Admin</option>
+                                        </select>
                                     ) : (
                                         user.role
                                     )}
