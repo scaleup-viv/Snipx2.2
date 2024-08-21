@@ -11,6 +11,7 @@ const NavBar = () => {
         if (isDarkMode) {
             document.documentElement.style.setProperty('--navbar-color', 'rgb(30, 30, 30)');
             document.documentElement.style.setProperty('--btn-bg-color', '#00bd9b');
+            document.documentElement.style.setProperty('--btn-bg-color2', 'rgb(0, 213, 255)');
             document.documentElement.style.setProperty('--graph-line-color', 'rgb(0, 213, 255)');
             document.documentElement.style.setProperty('--bg-color', 'rgb(40, 40, 40)');
             document.documentElement.style.setProperty('--container-color1', 'rgb(100, 100, 100)');
@@ -20,6 +21,7 @@ const NavBar = () => {
         } else {
             document.documentElement.style.setProperty('--navbar-color', '#FFB300');
             document.documentElement.style.setProperty('--btn-bg-color', '#E4277D');
+            document.documentElement.style.setProperty('--btn-bg-color2', '#FFB300');
             document.documentElement.style.setProperty('--graph-line-color', '#FFB300');
             document.documentElement.style.setProperty('--bg-color', '#ebedee');
             document.documentElement.style.setProperty('--container-color1', '#E4277D');
