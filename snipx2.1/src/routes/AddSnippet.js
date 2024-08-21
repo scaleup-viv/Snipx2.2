@@ -168,44 +168,44 @@ const Snippets = () => {
 
     return (
         <div className="snippets-container">
-            <h1>Add Snippet</h1>
-            <div className="form-container">
+            <h1 className="page-title">Add Snippet</h1>
+            <form onSubmit={handleSubmit} className="form-container">
                 <div className="input-container">
-                    <label htmlFor="date-input" className="block mb-2 text-gray-700">Enter a date:</label>
+                    <label htmlFor="date-input">Enter a date</label>
                     <input
                         id="date-input"
                         type="date"
                         value={currentDate}
                         onChange={handleDateChange}
-                        className="p-2 border border-gray-300 rounded w-full"
+                        className="date-input"
                     />
                 </div>
-
-                <form onSubmit={handleSubmit}>
+                <div className="snippet-container">
+                    <label htmlFor="snippet-input" className="snippet-label">Enter a snippet</label>
                     <Suspense fallback={<div>Loading editor...</div>}>
                         <ReactQuill
                             value={inputText}
                             onChange={setInputText}
                             placeholder="Enter your text here..."
-                            className="w-full p-2 border border-gray-300 rounded"
+                            className="snippet-input"
                         />
                     </Suspense>
-                    <button type="submit" className="mt-4 p-2 bg-blue-500 text-white rounded" disabled={loading}>
-                        {loading ? "Submitting..." : "Submit"}
-                    </button>
-                </form>
-            </div>
-
+                </div>
+                <button type="submit" className="submit-button" disabled={loading}>
+                    {loading ? "Submitting..." : "Submit"}
+                </button>
+            </form>
+    
             {loading && (
                 <div className="loading-container">
                     <div className="spinner"></div>
                 </div>
             )}
-
+    
             <div className="flex flex-col items-center w-full max-w-lg mt-8 space-y-4">
                 {showOutputs && results.green.length > 0 && (
                     <div className="w-full">
-                        <h2 className="green-title mb-2">Green:</h2>
+                        <h2 className="green-title mb-2">Green</h2>
                         {results.green.map((item, index) => (
                             <textarea
                                 key={`green-${index}`}
@@ -219,10 +219,10 @@ const Snippets = () => {
                         ))}
                     </div>
                 )}
-
+    
                 {showOutputs && results.orange.length > 0 && (
                     <div className="w-full">
-                        <h2 className="orange-title mb-2">Orange:</h2>
+                        <h2 className="orange-title mb-2">Orange</h2>
                         {results.orange.map((item, index) => (
                             <textarea
                                 key={`orange-${index}`}
@@ -236,10 +236,10 @@ const Snippets = () => {
                         ))}
                     </div>
                 )}
-
+    
                 {showOutputs && results.red.length > 0 && (
                     <div className="w-full">
-                        <h2 className="red-title mb-2">Red:</h2>
+                        <h2 className="red-title mb-2">Red</h2>
                         {results.red.map((item, index) => (
                             <textarea
                                 key={`red-${index}`}
@@ -253,11 +253,11 @@ const Snippets = () => {
                         ))}
                     </div>
                 )}
-
+    
                 {showOutputs && (
                     <>
-                                               <div className="w-full">
-                            <h2 className="text-gray-500 text-center mb-2">Explanations:</h2>
+                        <div className="w-full">
+                            <h2 className="explanation-score-sentiment-title">Explanations</h2>
                             <textarea
                                 value={results.explanations}
                                 className="auto-resize mb-2"
@@ -268,9 +268,9 @@ const Snippets = () => {
                                 }))}
                             />
                         </div>
-
+    
                         <div className="w-full">
-                            <h2 className="text-gray-500 text-center mb-2">Score:</h2>
+                            <h2 className="explanation-score-sentiment-title">Score</h2>
                             <textarea
                                 value={results.score}
                                 className="auto-resize mb-2"
@@ -285,9 +285,9 @@ const Snippets = () => {
                                 }}
                             />
                         </div>
-
+    
                         <div className="w-full">
-                            <h2 className="text-gray-500 text-center mb-2">Sentiment:</h2>
+                            <h2 className="explanation-score-sentiment-title">Sentiment</h2>
                             <textarea
                                 value={results.sentiment}
                                 className="auto-resize mb-2"
@@ -298,33 +298,30 @@ const Snippets = () => {
                                 }))}
                             />
                         </div>
-
+    
                         <div className="button-group flex justify-center mt-4">
                             <button
                                 onClick={handleApprove}
-
                                 className="approve-button mb-4"
-                                disabled={loading} // Disable during loading
+                                disabled={loading}
                             >
-                                {loading ? "Approving..." : "Approve"} {/* Update text based on loading state */}
+                                {loading ? "Approving..." : "Approve"}
                             </button>
-                            <button
-                            onClick={toggleGraphic}>
+                            <button onClick={toggleGraphic}>
                                 {showGraphic ? "Hide Graph" : "Show Graph"}
-
                             </button>
                         </div>
                     </>
                 )}
             </div>
-
+    
             {showGraphic && (
                 <div className="graphic-placeholder mt-8 w-full">
                     <Line data={data} options={options} />
                 </div>
             )}
         </div>
-    );
+    );    
 };
 
 export default Snippets;
