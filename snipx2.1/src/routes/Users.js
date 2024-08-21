@@ -144,6 +144,9 @@ function Users() {
         }
     };
 
+    // Filter out users with the role "deleted"
+    const filteredUsers = users.filter(user => user.role !== "deleted");
+
     return (
         <div className="users-container">
             <h1 className="page-title">Users</h1>
@@ -173,7 +176,7 @@ function Users() {
                         className="input-field"
                     >
                         <option value="">Select Manager</option>
-                        {users
+                        {filteredUsers
                             .filter((user) => user.role === "admin")
                             .map((user) => (
                                 <option key={user.id} value={user.id}>
@@ -198,7 +201,7 @@ function Users() {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user) => (
+                        {filteredUsers.map((user) => (
                             <tr key={user.id}>
                                 <td>{user.id}</td>
                                 <td>
@@ -235,7 +238,7 @@ function Users() {
                                             className="input-field"
                                         >
                                             <option value="">Select Manager</option>
-                                            {users
+                                            {filteredUsers
                                                 .filter((user) => user.role === "admin")
                                                 .map((manager) => (
                                                     <option key={manager.id} value={manager.id}>

@@ -4,6 +4,7 @@ import './AddSnippet.css';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import { useAuth } from "../AuthProvider";
+import { useNavigate } from 'react-router-dom';
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -12,8 +13,9 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 const ReactQuill = React.lazy(() => import('react-quill'));
 
 const Snippets = () => {
-
     const { user } = useAuth();
+    const navigate = useNavigate(); // Initialize the navigate function
+
     const [inputText, setInputText] = useState("");
     const [results, setResults] = useState({ green: [], orange: [], red: [], explanations: "", score: "", sentiment: "" });
     const [showOutputs, setShowOutputs] = useState(false);
@@ -23,6 +25,12 @@ const Snippets = () => {
     const [currentScore, setCurrentScore] = useState("");
     const [currentDate, setCurrentDate] = useState("");
     const [loading, setLoading] = useState(false); // Loading state
+
+    useEffect(() => {
+        if (user && user.role === "deleted") {
+            navigate("/login"); // Redirect to login if user is deleted
+        }
+    }, [user, navigate]);
 
     useEffect(() => {
         const now = new Date();
@@ -256,7 +264,7 @@ const Snippets = () => {
 
                 {showOutputs && (
                     <>
-                                               <div className="w-full">
+                        <div className="w-full">
                             <h2 className="text-gray-500 text-center mb-2">Explanations:</h2>
                             <textarea
                                 value={results.explanations}
@@ -302,7 +310,6 @@ const Snippets = () => {
                         <div className="button-group flex justify-center mt-4">
                             <button
                                 onClick={handleApprove}
-
                                 className="approve-button mb-4"
                                 disabled={loading} // Disable during loading
                             >
@@ -311,7 +318,6 @@ const Snippets = () => {
                             <button
                             onClick={toggleGraphic}>
                                 {showGraphic ? "Hide Graph" : "Show Graph"}
-
                             </button>
                         </div>
                     </>
@@ -328,4 +334,3 @@ const Snippets = () => {
 };
 
 export default Snippets;
-

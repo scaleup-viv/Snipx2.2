@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Suspense } from "react";
 import axios from "axios";
 import { useAuth } from "../AuthProvider";
+import { useNavigate } from "react-router-dom";
 import { Bar } from 'react-chartjs-2';
 import 'react-quill/dist/quill.snow.css';
 import './WeeklyReports.css';
@@ -10,6 +11,7 @@ const ReactQuill = React.lazy(() => import('react-quill'));
 
 function WeeklyReports() {
     const { user } = useAuth();
+    const navigate = useNavigate(); // Initialize the navigate function for redirection
     const [snippets, setSnippets] = useState([]);
     const [selectedSnippetIds, setSelectedSnippetIds] = useState([]);
     const [weeklyReport, setWeeklyReport] = useState(''); 
@@ -23,6 +25,13 @@ function WeeklyReports() {
     });
     const [chartData, setChartData] = useState({ labels: [], datasets: [] });
     const [loading, setLoading] = useState(false); // New state for loading spinner
+
+    useEffect(() => {
+        // Redirect to login if user role is 'deleted'
+        if (user.role === "deleted") {
+            navigate("/login");
+        }
+    }, [user, navigate]);
 
     useEffect(() => {
         const fetchSnippets = async () => {
@@ -303,4 +312,3 @@ function WeeklyReports() {
 }
 
 export default WeeklyReports;
-
