@@ -59,8 +59,12 @@ const Login = () => {
 
       {/* The Problem Section */}
       <div className= "section the-problem">
-        <h1>Problems</h1>
+        <h1>Skills and Upskilling Challenges in today's jobs markets and fast onboarding new gen</h1>
         <ul>
+          <li>
+            <span className="icon">✖</span>
+            <strong>Reskilling 50+ age generation</strong>
+          </li>
           <li>
             <span className="icon">✖</span>
             <strong>Inefficient Task Tracking</strong>
@@ -131,6 +135,29 @@ const Login = () => {
             </ul>
           </div>
         </div>
+      </div>
+
+      {/* SnipX benefits Section */}
+      <div className= "section the-problem">
+        <h1>SnipX benefits in Various Stages</h1>
+        <ul>
+          <li>
+            <span className="icon">✓</span>
+            <strong>Individual for personal growth and Upskilling / Reskilling </strong>
+          </li>
+          <li>
+            <span className="icon">✓</span>
+            <strong>For Team and People Leads - easier navigation for mentoring and coaching</strong>
+          </li>
+          <li>
+            <span className="icon">✓</span>
+            <strong>Company level - easier control of Upskilling and Reskilling pace of the whole company</strong>
+          </li>
+          <li>
+            <span className="icon">✓</span>
+            <strong>Individual can use standalone , separated from the company just for self reflection and faster personal growth</strong>
+          </li>
+        </ul>
       </div>
 
       {/* Landscape Section */}
