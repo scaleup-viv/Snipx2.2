@@ -4,7 +4,7 @@
     --container-color2: #FFB300;
     --btn-bg-color: #E4277D;
     --btn-bg-color2: #FFB300;
-    --black-text: white;
+    --colored-text: black;
 }
 
 /* Container removed; content is now directly on the page */
@@ -23,7 +23,7 @@
 .page-title {
     font-size: 36px;
     font-weight: bold;
-    color: #E4277D;
+    color: var(--colored-text);
     text-align: left;
     margin-bottom: 20px;
 }
@@ -39,7 +39,7 @@
 /* Label styling */
 .input-container label {
     font-size: 26px;
-    color: #E4277D;
+    color: var(--colored-text);
     font-weight: bold;
     margin-bottom: 10px;
     display: block;
@@ -69,7 +69,7 @@
 /* Label styling */
 .snippet-container label {
     font-size: 26px;
-    color: #E4277D;
+    color: var(--colored-text);
     font-weight: bold;
     margin-bottom: 10px;
     display: block;
@@ -98,32 +98,6 @@
     background-color: #fff;
 }
 
-/* Submit button styling */
-.submit-button {
-    background-color: #E4277D; /* Ensure the button has a distinct color */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 20px; /* Increase this value to lower the button */
-    display: block;
-}
-
-.submit-button:hover {
-    background-color: white; 
-    color: #E4277D;
-}
-
-.submit-button:disabled {
-    background-color: #cccccc; /* Different color when disabled */
-    cursor: not-allowed;
-}
-
-
 /* Output container styling */
 .output-container {
     margin-top: 30px;
@@ -137,7 +111,7 @@
 
 .output-container h3 {
     font-size: 20px;
-    color: #E4277D;
+    color: var(--colored-text);
     margin-bottom: 15px;
     border-bottom: 1px solid rgba(226, 39, 125, 0.3);
     padding-bottom: 5px;
@@ -157,7 +131,7 @@
 }
 
 .explanation-score-sentiment-title {
-    color:var(--black-text)
+    color:var(--colored-text)
 }
 
 /* Styling for the explanation, score, and sentiment text areas */
@@ -195,25 +169,6 @@ textarea.auto-resize::placeholder {
     display: flex;
     justify-content: space-around;
     margin-top: 20px;
-}
-
-.button-group button {
-    background: var(--btn-bg-color);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-right: 10px;
-}
-
-.button-group button:hover {
-    background: white;
-    color: var(--btn-bg-color);
-    border: 2px solid var(--btn-bg-color);
 }
 
 /* Loading spinner styling */

@@ -79,7 +79,7 @@ td {
 }
 
 /* Action Button Styling */
-button {
+.snippets-buttons {
     padding: 8px 12px;
     margin-bottom: 5px;
     width: 75px;
