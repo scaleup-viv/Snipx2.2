@@ -17,12 +17,38 @@
 }
 
 /* Center the login button at the top */
-.login-section {
+/* .login-section {
     grid-column: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+} */
+ /* Login button styling
+.auth-container {
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    padding-top: 20px;
+    width: 100%;
 }
+
+.auth-container button {
+    background: var(--btn-bg-color2);
+    color: white;
+    font-size: 18px;
+    padding: 15px 40px;
+    width: 300px; 
+    max-width: 100%; 
+    border: none; 
+    box-shadow: none; 
+    text-align: center; 
+}
+
+.auth-container button:hover {
+    background: white;
+    color: var(--btn-bg-color2);
+}  */
 
 /* Style adjustments for Company Purpose section */
 .company-purpose {
@@ -377,33 +403,4 @@
     .transposed-table td {
         font-size: 14px;
     }
-}
-
-  
-
-/* Login button styling */
-.auth-container {
-    background-color: transparent;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start; 
-    padding-top: 20px;
-    width: 100%;
-}
-
-.auth-container button {
-    background: var(--btn-bg-color2);
-    color: white;
-    font-size: 18px;
-    padding: 15px 40px; /* Increase the padding for a wider button */
-    width: 300px; /* Set a fixed width, adjust as needed */
-    max-width: 100%; /* Ensure the button doesn't overflow */
-    border: none; /* Remove any border */
-    box-shadow: none; /* Remove any shadow */
-    text-align: center; /* Center text inside the button */
-}
-
-.auth-container button:hover {
-    background: white;
-    color: var(--btn-bg-color2);
 }
