@@ -57,17 +57,20 @@ function Users() {
     };
 
     const handleDelete = async (id) => {
-        try {
-            const response = await fetch(`https://extension-360407.lm.r.appspot.com/api/snipx_users/${id}`, {
-                method: "DELETE",
-            });
-            if (response.ok) {
-                setUsers(users.filter((user) => user.id !== id));
-            } else {
-                console.error("Failed to delete user");
+        const confirmed = window.confirm("Are you sure you want to delete this user?");
+        if (confirmed) {
+            try {
+                const response = await fetch(`https://extension-360407.lm.r.appspot.com/api/snipx_users/${id}`, {
+                    method: "DELETE",
+                });
+                if (response.ok) {
+                    setUsers(users.filter((user) => user.id !== id));
+                } else {
+                    console.error("Failed to delete user");
+                }
+            } catch (error) {
+                console.error("Error deleting user:", error);
             }
-        } catch (error) {
-            console.error("Error deleting user:", error);
         }
     };
 
