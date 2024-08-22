@@ -1,0 +1,77 @@
+:root{
+    --colored-text:white;
+}
+
+.snippets-page {
+    width: 90%;
+    margin: 0 auto;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.snippets-title {
+    font-size: 36px;
+    font-weight: bold;
+    color: var(--colored-text);
+    margin-bottom: 20px;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.snippets-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.snippets-table th, 
+.snippets-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.snippets-table th {
+    background-color: #F7F7F7;
+    color: #555;
+    font-weight: 600;
+}
+
+.snippets-table td {
+    background-color: #FFF;
+    color: #666;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination-button {
+    border: none;
+    background: none;
+    color: black;
+    font-size: 18px;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.pagination-button:hover,
+.pagination-button.active {
+    font-weight: bold;
+    color:#E4277D;
+    text-decoration: underline;
+    
+}
+
+.pagination-button:disabled {
+    cursor: not-allowed;
+    color: #ccc;
+}

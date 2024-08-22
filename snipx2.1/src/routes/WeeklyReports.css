@@ -4,21 +4,21 @@
     --container-color1: #E4277D;
     --container-color2: #FFB300;
     --btn-bg-color : #E4277D;
+    --colored-text: white; /* Assuming you want to use the same black text color as before */
 }
 
+/* Remove container and align everything to the left */
 .weekly-report-container {
-    max-width: 1200px;
+    width: 90%; /* Make sure the container takes up the full width */
     margin: 40px auto;
-    padding: 20px;
-    background: linear-gradient(135deg, var(--container-color1),  var(--container-color2));
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin-left: 40px;
+    margin-right: 40px;
 }
 
 .weekly-report-title {
     font-size: 36px;
-    color: white;
-    text-align: center;
+    color: var(--colored-text); /* Set title color to black */
+    text-align: left; /* Align text to the left */
     margin-bottom: 20px;
     padding-bottom: 10px;
     border-bottom: 2px solid rgba(255, 255, 255, 0.3);
@@ -27,70 +27,77 @@
 .weekly-report-form {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 800px;
-    margin: 20px auto;
+    align-items: flex-start; /* Align items to the left */
+    width: 100%; /* Full width */
+    max-width: none; /* Remove max width */
+    margin: 20px 0;
 }
-
 
 .weekly-report-enriched-text{
     background-color: rgba(255, 255, 255, 0.8);
+    text-align: left; /* Align text to the left */
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    height: 350px;
+}
+
+/* Style for the ReactQuill container */
+.weekly-report-enriched-text .ql-container {
+    border: none; /* Remove the border */
+}
+.weekly-report-enriched-text .ql-toolbar {
+    border: none; /* Remove border from the toolbar */
+}
+
+
+.color-changing-text{
+    color:var(--colored-text);
 }
 
 select {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
-    border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.6);
     color: #333;
+    text-align: left; /* Align text to the left */
 }
 
 button {
-    width: 100%;
-    max-width: 200px;
-    padding: 10px;
     margin-top: 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #333;
-    color: white;
 }
 
 input {
-
-    width: 98%;
+    width: 100%;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 20px;
     margin-bottom: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.6);
     background-color: rgba(255, 255, 255, 0.8);
     color: #333;
+    text-align: left; /* Align text to the left */
 }
 
 textarea {
     width: 100%;
     padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.8);
     color: #333;
     resize: vertical;
+    text-align: left; /* Align text to the left */
 }
 
 h2 {
-    color: #333;
+    color: var(--colored-text); /* Set h2 color to black */
+    text-align: left; /* Align text to the left */
 }
 
-
-.sentiment-analysis-data-text{
-    color:white;
+.sentiment-analysis-data-text {
+    color: var(--colored-text); /* Set color to black */
+    text-align: left; /* Align text to the left */
 }
 
 .text-green-500 {
@@ -103,8 +110,8 @@ h2 {
 
 .text-red-500 {
     color: #dc3545;
-
 }
+
 
 
 .spinner {
@@ -120,3 +127,4 @@ h2 {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+

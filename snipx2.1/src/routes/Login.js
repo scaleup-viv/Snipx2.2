@@ -1,14 +1,4 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useAuth } from "../AuthProvider";
 import './Login.css'; // Ensure this contains styles specific to the landing page
-
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Box from "@mui/material/Box";
-import GoogleIcon from "@mui/icons-material/Google";
-import Button from "@mui/material/Button";
 
 import recapImage from './images/recap.png';  
 import heartImage from './images/heart.png';  
@@ -22,26 +12,10 @@ import kristinaImage from './images/Kristina.png';
 import piotrImage from './images/Piotr.png';
 
 const Login = () => {
-  const { user, login, auth, checkDatabase } = useAuth();
-  const [firebaseUser, loading] = useAuthState(auth);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user?.email) {
-      return navigate("/home");
-    } else if (!loading && firebaseUser) {
-      checkDatabase(firebaseUser);
-    }
-  }, [user, loading, firebaseUser, navigate, checkDatabase]);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    login();
-  };
 
   return (
     <div className="unconnected-landing-page">
-      {/* Login Button Section */}
+      {/* Login Button Section
       <div className="login-section">
         <Box component="form" onSubmit={handleSubmit} autoComplete="on">
           <div className="auth-container">
@@ -55,12 +29,16 @@ const Login = () => {
             </Button>
           </div>
         </Box>
-      </div>
+      </div> */}
 
       {/* The Problem Section */}
       <div className= "section the-problem">
-        <h1>Problems</h1>
+        <h1>Skills and Upskilling Challenges in today's jobs markets and fast onboarding new gen</h1>
         <ul>
+          <li>
+            <span className="icon">✖</span>
+            <strong>Reskilling 50+ age generation</strong>
+          </li>
           <li>
             <span className="icon">✖</span>
             <strong>Inefficient Task Tracking</strong>
@@ -131,6 +109,29 @@ const Login = () => {
             </ul>
           </div>
         </div>
+      </div>
+
+      {/* SnipX benefits Section */}
+      <div className= "section the-problem">
+        <h1>SnipX benefits in Various Stages</h1>
+        <ul>
+          <li>
+            <span className="icon">✓</span>
+            <strong>Individual for personal growth and Upskilling / Reskilling </strong>
+          </li>
+          <li>
+            <span className="icon">✓</span>
+            <strong>For Team and People Leads - easier navigation for mentoring and coaching</strong>
+          </li>
+          <li>
+            <span className="icon">✓</span>
+            <strong>Company level - easier control of Upskilling and Reskilling pace of the whole company</strong>
+          </li>
+          <li>
+            <span className="icon">✓</span>
+            <strong>Individual can use standalone , separated from the company just for self reflection and faster personal growth</strong>
+          </li>
+        </ul>
       </div>
 
       {/* Landscape Section */}

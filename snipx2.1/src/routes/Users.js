@@ -153,7 +153,7 @@ function Users() {
 
             {/* New User Form */}
             <div className="new-user-form">
-                <h2 className="form-title">Add New User</h2>
+                <h2 className="form-title">Add User</h2>
                 <div className="form-inputs">
                     <input
                         type="text"

@@ -310,13 +310,13 @@ function Snippets() {
                     <>
                       <button
                         onClick={() => handleSave(snippet.id)}
-                        className="text-green-600 hover:text-green-800 font-medium mr-2"
+                        className="snippets-buttons"
                       >
                         Save
                       </button>
                       <button
                         onClick={handleCancel}
-                        className="text-gray-600 hover:text-gray-800 font-medium"
+                        className="snippets-buttons"
                       >
                         Cancel
                       </button>
@@ -325,11 +325,13 @@ function Snippets() {
                     <>
                       <button
                         onClick={() => handleEditClick(snippet)}
+                        className="snippets-buttons"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDelete(snippet.id)}
+                        className="snippets-buttons"
                       >
                         Delete
                       </button>

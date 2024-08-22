@@ -1,97 +1,131 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../AuthProvider";
 import axios from "axios";
+import './MySnippets.css';
+import { FaAngleDoubleLeft, FaAngleDoubleRight, FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
 function Snippets() {
     const { user } = useAuth();
 
   const [snippets, setSnippets] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const snippetsPerPage = 3;
 
   useEffect(() => {
     const fetchSnippets = async () => {
       try {
-        console.log("userid", user.id)
+        console.log("userid", user.id);
         
         const response = await axios.post("https://extension-360407.lm.r.appspot.com/api/snipx_snippets/user", { id: user.id });
 
-        console.log("responce", response.data)
-                setSnippets(response.data);
+        console.log("response", response.data);
+        setSnippets(response.data);
       } catch (error) {
         console.error("Error fetching snippets:", error);
       }
     };
     fetchSnippets();
+  }, [user]);
 
-  }, []);
+  // Calculate pagination details
+  const indexOfLastSnippet = currentPage * snippetsPerPage;
+  const indexOfFirstSnippet = indexOfLastSnippet - snippetsPerPage;
+  const currentSnippets = snippets.slice(indexOfFirstSnippet, indexOfLastSnippet);
 
+  const totalPages = Math.ceil(snippets.length / snippetsPerPage);
+
+  const paginate = (pageNumber) => {
+    if (pageNumber < 1) {
+      setCurrentPage(1);
+    } else if (pageNumber > totalPages) {
+      setCurrentPage(totalPages);
+    } else {
+      setCurrentPage(pageNumber);
+    }
+  };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-semibold text-gray-800 mb-4">My Snippets</h1>
+    <div className="snippets-page">
+        <h1 className="snippets-title">My Snippets</h1>
+        <div className="table-container">
+            <table className="snippets-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                        <th>Snippet Text</th>
+                        <th>Green</th>
+                        <th>Orange</th>
+                        <th>Red</th>
+                        <th>Explanations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {currentSnippets.map((snippet) => (
+                        <tr key={snippet.id}>
+                            <td>{snippet.id}</td>
+                            <td>{snippet.type || ""}</td>
+                            <td>{snippet.date || ""}</td>
+                            <td>{snippet.text || ""}</td>
+                            <td>{JSON.stringify(snippet.green) || ""}</td>
+                            <td>{JSON.stringify(snippet.orange) || ""}</td>
+                            <td>{JSON.stringify(snippet.red) || ""}</td>
+                            <td>{JSON.stringify(snippet.explanations) || ""}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-300 rounded-lg">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="py-3 px-4 text-left font-medium text-gray-700">ID</th>
-              <th className="py-3 px-4 text-left font-medium text-gray-700">Type</th>
-              <th className="py-3 px-4 text-left font-medium text-gray-700">Date</th>
-              <th className="py-3 px-4 text-left font-medium text-gray-700">Snippet Text</th>
-              <th className="py-3 px-4 text-left font-medium text-gray-700">Green</th>
-              <th className="py-3 px-4 text-left font-medium text-gray-700">Orange</th>
-              <th className="py-3 px-4 text-left font-medium text-gray-700">Red</th>
-              <th className="py-3 px-4 text-left font-medium text-gray-700">Explanations</th>
-              <th className="py-3 px-4 text-left font-medium text-gray-700">Score</th>
-              <th className="py-3 px-4 text-left font-medium text-gray-700">Sentiment</th>
-            </tr>
-          </thead>
-          <tbody>
-            {snippets.map((snippet) => (
-              <tr key={snippet.id} className="border-t border-gray-300">
-                <td className="py-2 px-4">{snippet.id}</td>
+        <div className="pagination">
+            {/* First Page Button */}
+            <button onClick={() => paginate(1)} disabled={currentPage === 1} className="pagination-button">
+            <FaAngleDoubleLeft  />
+            </button>
 
-                <td className="py-2 px-4">
-                    {snippet.type || ""}
-                </td>
+            {/* Previous Page Button */}
+            <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1} className="pagination-button">
+            <FaAngleLeft  />
+            </button>
 
-                <td className="py-2 px-4">
-                {snippet.date || ""}
-                </td>
+            {/* Previous Two Pages */}
+            {currentPage > 2 && (
+                <button onClick={() => paginate(currentPage - 2)} className="pagination-button">
+                    {currentPage - 2}
+                </button>
+            )}
+            {currentPage > 1 && (
+                <button onClick={() => paginate(currentPage - 1)} className="pagination-button">
+                    {currentPage - 1}
+                </button>
+            )}
 
-                <td className="py-2 px-4">
-                {snippet.text || ""}
-                </td>
+            {/* Current Page */}
+            <button className="pagination-button active">{currentPage}</button>
 
-                <td className="py-2 px-4">
-                    {JSON.stringify(snippet.green) || ""}
-                </td>
+            {/* Next Two Pages */}
+            {currentPage < totalPages && (
+                <button onClick={() => paginate(currentPage + 1)} className="pagination-button">
+                    {currentPage + 1}
+                </button>
+            )}
+            {currentPage < totalPages - 1 && (
+                <button onClick={() => paginate(currentPage + 2)} className="pagination-button">
+                    {currentPage + 2}
+                </button>
+            )}
 
-                <td className="py-2 px-4">
-                    {JSON.stringify(snippet.orange) || ""}
-                </td>
+            {/* Next Page Button */}
+            <button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages} className="pagination-button">
+            <FaAngleRight />
+            </button>
 
-                <td className="py-2 px-4">
-                    {JSON.stringify(snippet.red) || ""}
-                </td>
-
-                <td className="py-2 px-4">
-                    {JSON.stringify(snippet.explanations) || ""}
-                </td>
-
-                <td className="py-2 px-4">
-                {snippet.score || ""}
-                </td>
-
-                <td className="py-2 px-4">
-                {snippet.sentiment || ""}
-                </td>
-             
-               
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            {/* Last Page Button */}
+            <button onClick={() => paginate(totalPages)} disabled={currentPage === totalPages} className="pagination-button">
+            <FaAngleDoubleRight />
+            </button>
+        </div>
     </div>
   );
 }

@@ -2,166 +2,163 @@
 :root {
     --container-color1: #E4277D;
     --container-color2: #FFB300;
-    --btn-bg-color : #E4277D;
-}
-.snippets-container {
-    width: 80%;
-    max-width: 800px;
-    margin: 40px auto;
-    background: linear-gradient(135deg, var(--container-color1),var(--container-color2)); /* Gradient background */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    color: white; /* Ensure text is readable on the gradient */
+    --btn-bg-color: #E4277D;
+    --btn-bg-color2: #FFB300;
+    --colored-text: black;
 }
 
-.snippets-container h2 {
-    font-size: 28px;
-    color: white; /* White text for contrast */
+/* Container removed; content is now directly on the page */
+.snippets-container {
+    max-width: 100%;
+    margin: 40px auto;
+    margin-left: 40px;
+    margin-right: 40px;
+    padding: 0;
+    border-radius: 0px;
+    box-shadow: none;
+    background-color: transparent;
+}
+
+/* Title styling */
+.page-title {
+    font-size: 36px;
+    font-weight: bold;
+    color: var(--colored-text);
     text-align: left;
     margin-bottom: 20px;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.3); /* Subtle bottom border */
-    padding-bottom: 10px;
-    text-shadow: 
-    -1px -1px 0 #000,  
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000; /* Black outline */
 }
 
-.snippets-container form {
+/* Form container styling */
+.form-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align items to the left */
-    margin-left: 45px; /* Match the margin of input-container */
+    align-items: flex-start;
+    width: 100%;
 }
 
-.input-container {
-    margin-left: 55px; /* Keep this consistent with form margin */
-    width: 322px;
-}
-
-.snippets-container .ql-container {
-    height: 351px; /* Height of the editor */
-    border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Border to match the gradient */
-    width: 655px;
-}
-
-.snippets-container .ql-toolbar {
-    border-radius: 5px 5px 0 0;
-    background-color: rgba(248, 248, 248, 0.8); /* Slightly transparent toolbar */
-}
-
-.snippets-container .ql-editor {
-    border-radius: 0 0 5px 5px;
-    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
-    color: #333;
-    font-size: 16px;
-    height: 350px; /* Height of the editor */
-    width: 650px;
-}
-
-.snippets-container button {
-    background: var(--btn-bg-color);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
+/* Label styling */
+.input-container label {
+    font-size: 26px;
+    color: var(--colored-text);
     font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-top: 20px;
+    margin-bottom: 10px;
+    display: block;
+    text-align: left;
 }
 
-.snippets-container button:hover {
-    background:white; 
-    color: var(--btn-bg-color);
+/* Date input styling */
+.date-input {
+    width: 100%;
+    max-width: 300px; /* Adjusted width */
+    padding: 12px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #333;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.snippets-container .mt-4 {
-    margin-top: 20px;
+/* Snippet input styling */
+.snippet-container {
+    width: 100%;
+    margin-bottom: 100px;
 }
 
-.snippets-container .p-2 {
-    padding: 10px;
+/* Label styling */
+.snippet-container label {
+    font-size: 26px;
+    color: var(--colored-text);
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+    text-align: left;
 }
 
-.snippets-container .output-container {
+.snippet-input {
+    width: 100%;
+    height: 400px; /* Adjusted height */
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    font-size: 16px;
+}
+
+.snippet-input .ql-container {
+    border-radius: 10px;
+}
+
+.snippet-input .ql-toolbar {
+    border-radius: 10px 10px 0 0;
+    background-color: rgba(248, 248, 248, 0.8);
+}
+
+.snippet-input .ql-editor {
+    border-radius: 0 0 10px 10px;
+    background-color: #fff;
+}
+
+/* Output container styling */
+.output-container {
     margin-top: 30px;
     padding: 15px;
-    background: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
+    background: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Border matching the gradient */
+    border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    color: #333; /* Text color inside output container */
+    color: #333;
 }
 
-.snippets-container .output-container h3 {
+.output-container h3 {
     font-size: 20px;
-    color: #E4277D; /* Match the gradient color */
+    color: var(--colored-text);
     margin-bottom: 15px;
-    border-bottom: 1px solid rgba(226, 39, 125, 0.3); /* Subtle bottom border */
+    border-bottom: 1px solid rgba(226, 39, 125, 0.3);
     padding-bottom: 5px;
 }
 
-.snippets-container .output-container div {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #444;
-    white-space: pre-wrap;
+/* Green, Orange, Red title styles */
+.green-title {
+    color: #28a745;
 }
 
-/* Styling for the Green title */
-.snippets-container h2.green-title {
-    color: #28a745; /* Green color */
+.orange-title {
+    color: #fd7e14;
 }
 
-/* Styling for the Orange title */
-.snippets-container h2.orange-title {
-    color: #fd7e14; /* Orange color */
+.red-title {
+    color: #dc3545;
 }
 
-/* Styling for the Red title */
-.snippets-container h2.red-title {
-    color: #dc3545; /* Red color */
+.explanation-score-sentiment-title {
+    color:var(--colored-text)
 }
 
-/* Date and Number input fields styling */
-#date-input, #number-input {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Border to match the gradient */
-    font-size: 16px;
-    width: 100%;
-    box-sizing: border-box;
-    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
-    color: #333; /* Text color */
-}
-
-.mr-2 {
-    margin-right: 8px;
-}
-
-.auto-resize {
+/* Styling for the explanation, score, and sentiment text areas */
+textarea.auto-resize {
     width: 100%;
     padding: 10px;
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 5px;
-    resize: none; /* Prevent manual resizing */
-    overflow: hidden; /* Hide overflow */
+    resize: none;
+    overflow: hidden;
     box-sizing: border-box;
     max-width: 95%;
+    margin-bottom: 10px;
 }
 
+textarea.auto-resize::placeholder {
+    color: #999;
+}
+
+/* Graphic placeholder styling */
 .graphic-placeholder {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Border to match the gradient */
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
@@ -170,18 +167,11 @@
 /* Button group styling */
 .button-group {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Align buttons to the left */
+    justify-content: space-around;
+    margin-top: 20px;
 }
 
-
-.button-group button {
-    width: 100%; /* Ensure buttons are full width */
-}
-
-
-
-/* Add this to your AddSnippet.css */
+/* Loading spinner styling */
 .spinner {
     border: 4px solid rgba(0, 0, 0, 0.1);
     width: 36px;
@@ -189,18 +179,17 @@
     border-radius: 50%;
     border-left-color: #09f;
     animation: spin 1s ease infinite;
-  }
+}
 
-  @keyframes spin {
+@keyframes spin {
     to {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }
+}
 
-  .loading-container {
+.loading-container {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 20px;
-  }
-
+}

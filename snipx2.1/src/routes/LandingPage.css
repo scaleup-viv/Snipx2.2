@@ -1,6 +1,6 @@
 :root {
     --btn-bg-color: #E4277D;
-    --black-text : white;
+    --colored-text : white;
     --graph-line-color: #FFB300;
 }
 
@@ -32,12 +32,12 @@
   }
   
   .profile-info {
-    color: var(--black-text);
+    color: var(--colored-text);
     font-size: 24px;
   }
 
   .profile-info h2{
-    color: var(--black-text);
+    color: var(--colored-text);
   }
   
   .overview-section {
@@ -77,7 +77,7 @@
     align-items: center;
   }
   .analysis-section h2{
-    color: var(--black-text);
+    color: var(--colored-text);
   }
   .sentiment-analysis-graph{
     width: 100%;

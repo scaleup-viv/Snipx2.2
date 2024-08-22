@@ -179,7 +179,7 @@ function WeeklyReports() {
 
             {snippets.length > 0 && (
                 <form onSubmit={handleSubmit} className="weekly-report-form">
-                    <label htmlFor="snippet-select">Select Snippets:</label>
+                    <label htmlFor="snippet-select" className="color-changing-text">Select Snippets:</label>
                     <select 
                         id="snippet-select" 
                         multiple 
@@ -193,8 +193,10 @@ function WeeklyReports() {
                             </option>
                         ))}
                     </select>
+
                     <button type="submit" className="mt-4 p-2 bg-blue-500 text-white rounded">
                         {loading ? "Submitting..." : "Submit"} {/* Displaying loading text */}
+
                     </button>
                 </form>
             )}
@@ -220,11 +222,13 @@ function WeeklyReports() {
                     value={weeklyReport}
                     onChange={setWeeklyReport}
                     placeholder="Weekly report"
-                    className="weekly-report-enriched-text w-full p-2 border border-gray-300 rounded"
+                    className="weekly-report-enriched-text"
                 />
             </Suspense>
+
             <button onClick={handleAnalyzeSubmit} className="mt-4 p-2 bg-yellow-500 text-white rounded">
                 {loading ? "Analyzing..." : "Analyze Report"} {/* Displaying loading text */}
+
             </button>
 
             <div className="flex flex-col items-center w-full max-w-lg mt-8 space-y-4">
@@ -276,7 +280,7 @@ function WeeklyReports() {
 
                 {/* Additional input fields for sentiment analysis data */}
                 <div className="w-full">
-                    <h2 className="text-gray-500 text-center mb-2">Sentiment Analysis Data:</h2>
+                    <h2 className="color-changing-text">Sentiment Analysis Data:</h2>
                     <input
                         type="text"
                         value={results.explanations}
@@ -300,7 +304,7 @@ function WeeklyReports() {
                     />
                 </div>
 
-                <button onClick={handleApprove} className="mt-4 p-2 bg-green-500 text-white rounded">
+                <button onClick={handleApprove}>
                     Approve
                 </button>
             </div>
